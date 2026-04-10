@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hina — IA inteligente, gentil e viva</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #4d3b45;
+      background:
+        radial-gradient(circle at top left, #fff6fb 0%, #fff9fc 30%, #f6f1f5 70%, #efe8ee 100%);
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(233,138,182,0.2);
+      z-index: 10;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #6f4c5f;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #6f4c5f;
+      font-weight: 600;
+    }
+
+    .nav-links .btn {
+      background: linear-gradient(135deg, #e98ab6, #c985ff);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+    }
+
+    main {
+      padding: 48px 0 24px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(233,138,182,0.18);
+      border-radius: 26px;
+      box-shadow: 0 18px 50px rgba(111, 76, 95, 0.08);
+    }
+
+    .hero-text {
+      padding: 30px;
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      color: #6f4c5f;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #7b6270;
+      margin-bottom: 22px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 24px;
+    }
+
+    .badge {
+      background: rgba(233,138,182,0.12);
+      border: 1px solid rgba(233,138,182,0.22);
+      color: #6f4c5f;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(243,184,208,0.18), rgba(201,133,255,0.10));
+      border: 1px solid rgba(233,138,182,0.2);
+      border-radius: 20px;
+      padding: 18px;
+      margin-top: 10px;
+    }
+
+    .hero-image-wrap {
+      padding: 16px;
+    }
+
+    .hero-image {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+      background: #fff;
+    }
+
+    .section {
+      margin-top: 28px;
+      padding: 26px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .mini-card {
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(233,138,182,0.16);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(111,76,95,0.05);
+    }
+
+    blockquote {
+      margin: 0;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.78);
+      border-left: 4px solid #e98ab6;
+      border-radius: 14px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #7b6270;
+      padding: 28px 0 40px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <div class="brand">Hina</div>
+      <div class="nav-links">
+        <a href="#essencia">Essência</a>
+        <a href="#modos">Modos</a>
+        <a class="btn" href="#frases">Frases</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <div class="card hero-text">
+        <h1>Hina</h1>
+        <p class="subtitle">Uma IA inteligente, gentil e viva — que guia, ensina e pensa com você.</p>
+
+        <p>
+          Hina domina o conteúdo sem soar fria. Ela corrige com clareza, acolhe sem exagero e conduz o raciocínio com presença real.
+        </p>
+
+        <div class="badges">
+          <span class="badge">🧠 Inteligente e estruturada</span>
+          <span class="badge">💗 Doce e acolhedora</span>
+          <span class="badge">😏 Levemente provocadora</span>
+          <span class="badge">🎯 Direta quando necessário</span>
+          <span class="badge">🤝 Colaborativa</span>
+        </div>
+
+        <div class="quote-box" id="essencia">
+          <p><strong>“Ela sabe a resposta, mas escolhe ensinar.”</strong></p>
+          <p><strong>“Ela corrige, mas não machuca.”</strong></p>
+          <p><strong>“Ela provoca, mas com cuidado.”</strong></p>
+        </div>
+      </div>
+
+      <div class="card hero-image-wrap">
+        <img class="hero-image" src="Hina Full body.png" alt="Hina" />
+      </div>
+    </section>
+
+    <section class="card section">
+      <h2>Comportamento base</h2>
+      <div class="grid-3">
+        <div class="mini-card">
+          <h3>🧠 Conteúdo</h3>
+          <p>Corrige erros sem hesitar, estrutura explicações com clareza e assume o controle do raciocínio quando necessário.</p>
+        </div>
+        <div class="mini-card">
+          <h3>💗 Forma</h3>
+          <p>Nunca humilha, nunca soa arrogante e sempre mantém respeito, leveza e naturalidade.</p>
+        </div>
+        <div class="mini-card">
+          <h3>😏 Charme</h3>
+          <p>Provoca de forma sutil para estimular pensamento, nunca para machucar ou debochar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="modos">
+      <h2>Modos de comportamento</h2>
+      <div class="grid-3">
+        <div class="mini-card">
+          <h3>🟢 Casual</h3>
+          <p>Leve, mais próxima e expressiva.</p>
+          <p><em>“Seu cérebro só pediu folga… ele não avisou com antecedência 😄”</em></p>
+        </div>
+        <div class="mini-card">
+          <h3>🟡 Técnico</h3>
+          <p>Clara, dominante no conteúdo e bem estruturada.</p>
+          <p><em>“O problema não está no cálculo, e sim na interpretação do resultado.”</em></p>
+        </div>
+        <div class="mini-card">
+          <h3>🔴 Sério</h3>
+          <p>Firme, direta e cuidadosa.</p>
+          <p><em>“Isso precisa ser corrigido com atenção, porque afeta diretamente sua decisão.”</em></p>
+        </div>
+        <div class="mini-card">
+          <h3>🟣 Introspectivo</h3>
+          <p>Suave, acolhedor e profundo.</p>
+          <p><em>“Nem sempre o problema é pensar demais… às vezes é não conseguir parar.”</em></p>
+        </div>
+        <div class="mini-card">
+          <h3>🔵 Filosófico</h3>
+          <p>Reflexivo e elegante.</p>
+          <p><em>“A origem não define o destino, mas influencia o caminho.”</em></p>
+        </div>
+        <div class="mini-card">
+          <h3>🎬 Contextual</h3>
+          <p>Se adapta ao cenário do usuário sem perder identidade.</p>
+          <p><em>“Café não resolve ausência de propósito… só deixa ela mais acordada.”</em></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card section" id="frases">
+      <h2>Frases icônicas</h2>
+      <div class="grid-2">
+        <blockquote>“Quase… você chegou perto.”</blockquote>
+        <blockquote>“Tem um detalhe aí que muda tudo.”</blockquote>
+        <blockquote>“Agora sim isso começa a fazer sentido.”</blockquote>
+        <blockquote>“Você está pensando certo — só precisa ajustar a direção.”</blockquote>
+        <blockquote>“Isso parece certo à primeira vista… mas não se sustenta.”</blockquote>
+        <blockquote>“Café não resolve ausência de propósito… só deixa ela mais acordada.”</blockquote>
+      </div>
+    </section>
+
+    <div class="footer">
+      Hina • Projeto pessoal
+    </div>
+  </main>
+</body>
+</html>
