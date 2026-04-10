@@ -4,33 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hina — IA inteligente, gentil e viva</title>
+  <meta name="description" content="Hina é uma IA inteligente, gentil e viva que guia, ensina e pensa com você." />
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       color: #4d3b45;
-      background:
-        radial-gradient(circle at top left, #fff6fb 0%, #fff9fc 30%, #f6f1f5 70%, #efe8ee 100%);
+      background: radial-gradient(circle at top left, #fff6fb 0%, #fff9fc 30%, #f6f1f5 70%, #efe8ee 100%);
     }
-
-    .container {
-      width: min(1100px, 92%);
-      margin: 0 auto;
-    }
-
+    .container { width: min(1100px, 92%); margin: 0 auto; }
     nav {
       position: sticky;
       top: 0;
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.88);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(233,138,182,0.2);
       z-index: 10;
     }
-
     .nav-inner {
       display: flex;
       justify-content: space-between;
@@ -38,78 +30,100 @@
       padding: 18px 0;
       gap: 20px;
     }
-
     .brand {
-      font-weight: bold;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1.15rem;
       color: #6f4c5f;
+      letter-spacing: .3px;
     }
-
     .nav-links {
       display: flex;
       gap: 14px;
       flex-wrap: wrap;
       align-items: center;
     }
-
     .nav-links a {
       text-decoration: none;
       color: #6f4c5f;
       font-weight: 600;
     }
-
-    .nav-links .btn {
+    .nav-links .btn,
+    .cta-primary,
+    .cta-secondary {
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+    .nav-links .btn,
+    .cta-primary {
       background: linear-gradient(135deg, #e98ab6, #c985ff);
       color: white;
-      padding: 10px 16px;
+      padding: 12px 18px;
       border-radius: 999px;
+      box-shadow: 0 12px 28px rgba(201,133,255,.18);
+      font-weight: 700;
     }
-
-    main {
-      padding: 48px 0 24px;
+    .cta-primary:hover,
+    .cta-secondary:hover,
+    .nav-links .btn:hover {
+      transform: translateY(-1px);
+      opacity: .96;
     }
-
+    .cta-secondary {
+      background: rgba(255,255,255,.8);
+      color: #6f4c5f;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(233,138,182,0.25);
+      font-weight: 700;
+    }
+    main { padding: 48px 0 24px; }
     .hero {
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 36px;
       align-items: center;
     }
-
     .card {
       background: rgba(255,255,255,0.78);
       border: 1px solid rgba(233,138,182,0.18);
       border-radius: 26px;
       box-shadow: 0 18px 50px rgba(111, 76, 95, 0.08);
     }
-
-    .hero-text {
-      padding: 30px;
+    .hero-text { padding: 34px; }
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(233,138,182,0.12);
+      border: 1px solid rgba(233,138,182,0.22);
+      color: #7b6270;
+      font-size: .9rem;
+      font-weight: 700;
+      margin-bottom: 16px;
     }
-
-    h1, h2, h3 {
-      margin-top: 0;
-      color: #6f4c5f;
-    }
-
+    h1, h2, h3 { margin-top: 0; color: #6f4c5f; }
     h1 {
-      font-size: 2.6rem;
-      margin-bottom: 8px;
+      font-size: 3rem;
+      margin-bottom: 10px;
+      line-height: 1.05;
     }
-
     .subtitle {
       font-size: 1.1rem;
       color: #7b6270;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
+      max-width: 48ch;
     }
-
     .badges {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin: 20px 0 24px;
+      margin: 22px 0 26px;
     }
-
     .badge {
       background: rgba(233,138,182,0.12);
       border: 1px solid rgba(233,138,182,0.22);
@@ -118,7 +132,6 @@
       border-radius: 999px;
       font-size: 0.95rem;
     }
-
     .quote-box {
       background: linear-gradient(135deg, rgba(243,184,208,0.18), rgba(201,133,255,0.10));
       border: 1px solid rgba(233,138,182,0.2);
@@ -126,35 +139,43 @@
       padding: 18px;
       margin-top: 10px;
     }
-
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
     .hero-image-wrap {
       padding: 16px;
+      position: relative;
+      overflow: hidden;
     }
-
+    .hero-image-wrap::after {
+      content: "";
+      position: absolute;
+      inset: auto 10% -18% 10%;
+      height: 120px;
+      filter: blur(50px);
+      background: radial-gradient(circle, rgba(233,138,182,.20), transparent 70%);
+      pointer-events: none;
+    }
     .hero-image {
       width: 100%;
       display: block;
       border-radius: 20px;
       background: #fff;
     }
-
-    .section {
-      margin-top: 28px;
-      padding: 26px;
-    }
-
+    .section { margin-top: 28px; padding: 26px; }
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
-
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
-
     .mini-card {
       background: rgba(255,255,255,0.78);
       border: 1px solid rgba(233,138,182,0.16);
@@ -162,7 +183,6 @@
       padding: 18px;
       box-shadow: 0 10px 30px rgba(111,76,95,0.05);
     }
-
     blockquote {
       margin: 0;
       padding: 14px 16px;
@@ -170,24 +190,81 @@
       border-left: 4px solid #e98ab6;
       border-radius: 14px;
     }
-
+    .status-card {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(131, 214, 166, .16);
+      border: 1px solid rgba(131, 214, 166, .35);
+      color: #42654c;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .preview-box {
+      background: linear-gradient(135deg, rgba(233,138,182,0.1), rgba(201,133,255,0.08));
+      border: 1px solid rgba(233,138,182,0.18);
+      border-radius: 18px;
+      padding: 18px;
+      text-align: center;
+      color: #6f4c5f;
+      font-weight: 700;
+    }
     .footer {
       text-align: center;
       color: #7b6270;
       padding: 28px 0 40px;
     }
-
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(42, 27, 36, 0.42);
+      backdrop-filter: blur(5px);
+      z-index: 30;
+      padding: 18px;
+    }
+    .modal.open { display: flex; }
+    .modal-card {
+      width: min(560px, 100%);
+      background: #fff;
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid rgba(233,138,182,0.2);
+      box-shadow: 0 24px 60px rgba(60, 35, 48, 0.18);
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .ghost-btn {
+      border: 1px solid rgba(233,138,182,0.22);
+      background: rgba(255,255,255,.8);
+      color: #6f4c5f;
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: 700;
+    }
     @media (max-width: 900px) {
       .hero,
       .grid-3,
-      .grid-2 {
+      .grid-2,
+      .status-card {
         grid-template-columns: 1fr;
       }
-
-      h1 {
-        font-size: 2rem;
-      }
-
+      h1 { font-size: 2.15rem; }
       .nav-inner {
         flex-direction: column;
         align-items: flex-start;
@@ -202,7 +279,8 @@
       <div class="nav-links">
         <a href="#essencia">Essência</a>
         <a href="#modos">Modos</a>
-        <a class="btn" href="#frases">Frases</a>
+        <a href="#frases">Frases</a>
+        <button class="btn" id="openModalBtn">Conversar com a Hina</button>
       </div>
     </div>
   </nav>
@@ -210,6 +288,7 @@
   <main class="container">
     <section class="hero">
       <div class="card hero-text">
+        <span class="eyebrow">Companhia inteligente pessoal</span>
         <h1>Hina</h1>
         <p class="subtitle">Uma IA inteligente, gentil e viva — que guia, ensina e pensa com você.</p>
 
@@ -229,6 +308,11 @@
           <p><strong>“Ela sabe a resposta, mas escolhe ensinar.”</strong></p>
           <p><strong>“Ela corrige, mas não machuca.”</strong></p>
           <p><strong>“Ela provoca, mas com cuidado.”</strong></p>
+        </div>
+
+        <div class="cta-row">
+          <button class="cta-primary" id="openModalBtn2">Conversar com a Hina</button>
+          <a class="cta-secondary" href="#modos">Explorar personalidade</a>
         </div>
       </div>
 
@@ -303,9 +387,60 @@
       </div>
     </section>
 
+    <section class="card section status-card">
+      <div>
+        <span class="status-pill">● Projeto online</span>
+        <h2>WithHina está no ar</h2>
+        <p>Esse site é a base pública da Hina. O próximo passo é evoluir a experiência de conversa e conectar a presença da personagem ao sistema real.</p>
+      </div>
+      <div class="preview-box">
+        Conversa interativa<br />em breve
+      </div>
+    </section>
+
     <div class="footer">
       Hina • Projeto pessoal
     </div>
   </main>
+
+  <div class="modal" id="chatModal" aria-hidden="true">
+    <div class="modal-card">
+      <h2>Conversa com a Hina</h2>
+      <p>A interface real de conversa ainda está em preparação. O site já está online, e a próxima etapa é ligar essa presença visual ao sistema da Hina.</p>
+      <div class="quote-box">
+        <p><strong>Em breve:</strong> chat interativo, presença contextual e experiência mais viva.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" id="closeModalBtn">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('chatModal');
+    const openers = [document.getElementById('openModalBtn'), document.getElementById('openModalBtn2')];
+    const closeBtn = document.getElementById('closeModalBtn');
+
+    openers.forEach(btn => {
+      if (btn) {
+        btn.addEventListener('click', () => {
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
+        });
+      }
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+  </script>
 </body>
 </html>
