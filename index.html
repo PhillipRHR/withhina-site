@@ -5,133 +5,191 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hina — IA inteligente, gentil e viva</title>
   <meta name="description" content="Hina é uma IA inteligente, gentil e viva que guia, ensina e pensa com você." />
+  <meta name="author" content="PhillipRHR" />
+  <meta name="copyright" content="Hina / PhillipRHR" />
+  <meta property="og:title" content="Hina — IA inteligente, gentil e viva" />
+  <meta property="og:description" content="Uma presença inteligente, gentil e viva que guia, ensina e pensa com você." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="hina.webp" />
   <style>
+    :root {
+      --bg: #f7f1f5;
+      --bg-soft: #fff9fc;
+      --card: rgba(255, 255, 255, 0.82);
+      --line: rgba(233, 138, 182, 0.20);
+      --text: #4d3b45;
+      --muted: #7b6270;
+      --title: #6f4c5f;
+      --primary: #e98ab6;
+      --primary-2: #c985ff;
+      --success-bg: rgba(131, 214, 166, 0.16);
+      --success-line: rgba(131, 214, 166, 0.35);
+      --success-text: #42654c;
+      --shadow: 0 18px 50px rgba(111, 76, 95, 0.08);
+      --radius: 26px;
+    }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      color: #4d3b45;
-      background: radial-gradient(circle at top left, #fff6fb 0%, #fff9fc 30%, #f6f1f5 70%, #efe8ee 100%);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #fff6fb 0%, #fff9fc 30%, #f6f1f5 70%, #efe8ee 100%);
     }
-    .container { width: min(1100px, 92%); margin: 0 auto; }
+
+    .container {
+      width: min(1120px, 92%);
+      margin: 0 auto;
+    }
+
     nav {
       position: sticky;
       top: 0;
-      background: rgba(255,255,255,0.88);
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(233,138,182,0.2);
-      z-index: 10;
+      border-bottom: 1px solid var(--line);
     }
+
     .nav-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 18px;
       padding: 18px 0;
-      gap: 20px;
     }
+
     .brand {
-      font-weight: 700;
       font-size: 1.15rem;
-      color: #6f4c5f;
-      letter-spacing: .3px;
+      font-weight: 700;
+      color: var(--title);
+      letter-spacing: 0.2px;
     }
+
     .nav-links {
       display: flex;
-      gap: 14px;
       flex-wrap: wrap;
       align-items: center;
+      gap: 14px;
     }
+
     .nav-links a {
       text-decoration: none;
-      color: #6f4c5f;
-      font-weight: 600;
+      color: var(--title);
+      font-weight: 700;
     }
-    .nav-links .btn,
-    .cta-primary,
-    .cta-secondary {
+
+    .btn,
+    .ghost-btn,
+    .send-btn {
       border: 0;
       cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
-    }
-    .nav-links .btn,
-    .cta-primary {
-      background: linear-gradient(135deg, #e98ab6, #c985ff);
-      color: white;
-      padding: 12px 18px;
-      border-radius: 999px;
-      box-shadow: 0 12px 28px rgba(201,133,255,.18);
+      transition: transform .16s ease, opacity .16s ease, box-shadow .16s ease;
       font-weight: 700;
+      font-size: 0.95rem;
     }
-    .cta-primary:hover,
-    .cta-secondary:hover,
-    .nav-links .btn:hover {
+
+    .btn:hover,
+    .ghost-btn:hover,
+    .send-btn:hover {
       transform: translateY(-1px);
-      opacity: .96;
+      opacity: 0.96;
     }
-    .cta-secondary {
-      background: rgba(255,255,255,.8);
-      color: #6f4c5f;
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
       padding: 12px 18px;
       border-radius: 999px;
-      border: 1px solid rgba(233,138,182,0.25);
-      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      box-shadow: 0 12px 28px rgba(201, 133, 255, 0.18);
+      text-decoration: none;
     }
-    main { padding: 48px 0 24px; }
+
+    .ghost-btn {
+      background: rgba(255,255,255,0.82);
+      color: var(--title);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 12px 18px;
+    }
+
+    main {
+      padding: 48px 0 24px;
+    }
+
     .hero {
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
       gap: 36px;
       align-items: center;
     }
+
     .card {
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(233,138,182,0.18);
-      border-radius: 26px;
-      box-shadow: 0 18px 50px rgba(111, 76, 95, 0.08);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
     }
-    .hero-text { padding: 34px; }
+
+    .hero-text {
+      padding: 34px;
+    }
+
     .eyebrow {
       display: inline-block;
       padding: 8px 12px;
       border-radius: 999px;
       background: rgba(233,138,182,0.12);
       border: 1px solid rgba(233,138,182,0.22);
-      color: #7b6270;
-      font-size: .9rem;
+      color: var(--muted);
+      font-size: 0.9rem;
       font-weight: 700;
       margin-bottom: 16px;
     }
-    h1, h2, h3 { margin-top: 0; color: #6f4c5f; }
+
+    h1, h2, h3 {
+      margin-top: 0;
+      color: var(--title);
+    }
+
     h1 {
       font-size: 3rem;
-      margin-bottom: 10px;
       line-height: 1.05;
+      margin-bottom: 10px;
     }
+
     .subtitle {
-      font-size: 1.1rem;
-      color: #7b6270;
+      font-size: 1.12rem;
+      color: var(--muted);
       margin-bottom: 18px;
-      max-width: 48ch;
+      max-width: 42ch;
     }
+
+    p {
+      line-height: 1.45;
+    }
+
     .badges {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin: 22px 0 26px;
     }
+
     .badge {
       background: rgba(233,138,182,0.12);
       border: 1px solid rgba(233,138,182,0.22);
-      color: #6f4c5f;
+      color: var(--title);
       padding: 9px 14px;
       border-radius: 999px;
       font-size: 0.95rem;
     }
+
     .quote-box {
       background: linear-gradient(135deg, rgba(243,184,208,0.18), rgba(201,133,255,0.10));
       border: 1px solid rgba(233,138,182,0.2);
@@ -139,17 +197,20 @@
       padding: 18px;
       margin-top: 10px;
     }
+
     .cta-row {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
       margin-top: 22px;
     }
+
     .hero-image-wrap {
       padding: 16px;
       position: relative;
       overflow: hidden;
     }
+
     .hero-image-wrap::after {
       content: "";
       position: absolute;
@@ -159,23 +220,31 @@
       background: radial-gradient(circle, rgba(233,138,182,.20), transparent 70%);
       pointer-events: none;
     }
+
     .hero-image {
       width: 100%;
       display: block;
       border-radius: 20px;
       background: #fff;
     }
-    .section { margin-top: 28px; padding: 26px; }
+
+    .section {
+      margin-top: 28px;
+      padding: 26px;
+    }
+
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
+
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 16px;
     }
+
     .mini-card {
       background: rgba(255,255,255,0.78);
       border: 1px solid rgba(233,138,182,0.16);
@@ -183,91 +252,228 @@
       padding: 18px;
       box-shadow: 0 10px 30px rgba(111,76,95,0.05);
     }
+
     blockquote {
       margin: 0;
       padding: 14px 16px;
       background: rgba(255,255,255,0.78);
-      border-left: 4px solid #e98ab6;
+      border-left: 4px solid var(--primary);
       border-radius: 14px;
     }
+
     .status-card {
       display: grid;
       grid-template-columns: 1.3fr .7fr;
       gap: 16px;
       align-items: center;
     }
+
     .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(131, 214, 166, .16);
-      border: 1px solid rgba(131, 214, 166, .35);
-      color: #42654c;
+      background: var(--success-bg);
+      border: 1px solid var(--success-line);
+      color: var(--success-text);
       padding: 10px 14px;
       border-radius: 999px;
       font-weight: 700;
       margin-bottom: 12px;
     }
+
     .preview-box {
       background: linear-gradient(135deg, rgba(233,138,182,0.1), rgba(201,133,255,0.08));
       border: 1px solid rgba(233,138,182,0.18);
       border-radius: 18px;
       padding: 18px;
       text-align: center;
-      color: #6f4c5f;
+      color: var(--title);
       font-weight: 700;
     }
+
     .footer {
       text-align: center;
-      color: #7b6270;
+      color: var(--muted);
       padding: 28px 0 40px;
     }
-    .modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      background: rgba(42, 27, 36, 0.42);
-      backdrop-filter: blur(5px);
-      z-index: 30;
-      padding: 18px;
+
+    .creation-date {
+      font-size: 0.94rem;
+      color: var(--muted);
+      margin-top: 8px;
     }
-    .modal.open { display: flex; }
-    .modal-card {
-      width: min(560px, 100%);
-      background: #fff;
-      border-radius: 24px;
-      padding: 24px;
-      border: 1px solid rgba(233,138,182,0.2);
-      box-shadow: 0 24px 60px rgba(60, 35, 48, 0.18);
+
+    .chat-section {
+      margin-top: 28px;
+      padding: 0;
+      overflow: hidden;
     }
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
+
+    .chat-shell {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: 640px;
+    }
+
+    .chat-sidebar {
+      background: rgba(255,255,255,0.7);
+      border-right: 1px solid var(--line);
+      padding: 22px;
+    }
+
+    .chat-sidebar h2 {
+      margin-bottom: 10px;
+    }
+
+    .chat-sidebar p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .feature-list {
+      display: grid;
       gap: 10px;
-      margin-top: 20px;
     }
-    .ghost-btn {
-      border: 1px solid rgba(233,138,182,0.22);
-      background: rgba(255,255,255,.8);
-      color: #6f4c5f;
-      border-radius: 999px;
-      padding: 10px 16px;
-      cursor: pointer;
+
+    .feature-item {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(233,138,182,0.18);
+      color: var(--title);
       font-weight: 700;
     }
-    @media (max-width: 900px) {
+
+    .chat-main {
+      display: flex;
+      flex-direction: column;
+      min-height: 640px;
+      background: rgba(255,255,255,0.6);
+    }
+
+    .chat-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.78);
+    }
+
+    .chat-topbar h3 {
+      margin: 0;
+    }
+
+    .chat-status {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 14px 16px;
+      border-radius: 18px;
+      line-height: 1.45;
+      box-shadow: 0 8px 20px rgba(111,76,95,0.05);
+      white-space: pre-wrap;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      border-bottom-right-radius: 8px;
+    }
+
+    .message.hina {
+      align-self: flex-start;
+      background: rgba(255,255,255,0.88);
+      color: var(--text);
+      border: 1px solid rgba(233,138,182,0.18);
+      border-bottom-left-radius: 8px;
+    }
+
+    .chat-inputbar {
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.86);
+      padding: 16px 18px;
+    }
+
+    .chat-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+    }
+
+    .chat-input {
+      width: 100%;
+      border: 1px solid rgba(233,138,182,0.2);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--text);
+      background: rgba(255,255,255,0.96);
+      outline: none;
+    }
+
+    .chat-input:focus {
+      border-color: rgba(201,133,255,0.45);
+      box-shadow: 0 0 0 4px rgba(201,133,255,0.08);
+    }
+
+    .send-btn {
+      padding: 0 18px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: white;
+      min-width: 110px;
+    }
+
+    .chat-tip {
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    @media (max-width: 980px) {
       .hero,
       .grid-3,
       .grid-2,
-      .status-card {
+      .status-card,
+      .chat-shell {
         grid-template-columns: 1fr;
       }
+
       h1 { font-size: 2.15rem; }
+
       .nav-inner {
         flex-direction: column;
         align-items: flex-start;
+      }
+
+      .chat-main,
+      .chat-shell {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .chat-form {
+        grid-template-columns: 1fr;
+      }
+
+      .message {
+        max-width: 100%;
       }
     }
   </style>
@@ -280,7 +486,7 @@
         <a href="#essencia">Essência</a>
         <a href="#modos">Modos</a>
         <a href="#frases">Frases</a>
-        <button class="btn" id="openModalBtn">Conversar com a Hina</button>
+        <a class="btn" href="#chat">Conversar com a Hina</a>
       </div>
     </div>
   </nav>
@@ -311,13 +517,13 @@
         </div>
 
         <div class="cta-row">
-          <button class="cta-primary" id="openModalBtn2">Conversar com a Hina</button>
-          <a class="cta-secondary" href="#modos">Explorar personalidade</a>
+          <a class="btn" href="#chat">Conversar com a Hina</a>
+          <a class="ghost-btn" href="#modos">Explorar personalidade</a>
         </div>
       </div>
 
       <div class="card hero-image-wrap">
-        <img class="hero-image" src="Hina Full body.webp" alt="Hina" />
+        <img class="hero-image" src="hina.webp" alt="Hina" loading="lazy" />
       </div>
     </section>
 
@@ -392,9 +598,55 @@
         <span class="status-pill">● Projeto online</span>
         <h2>WithHina está no ar</h2>
         <p>Esse site é a base pública da Hina. O próximo passo é evoluir a experiência de conversa e conectar a presença da personagem ao sistema real.</p>
+        <p class="creation-date"><strong>Data de criação do site:</strong> 10/04/2026</p>
       </div>
       <div class="preview-box">
-        Conversa interativa<br />em breve
+        Conversa interativa<br />ativa abaixo
+      </div>
+    </section>
+
+    <section class="card chat-section" id="chat">
+      <div class="chat-shell">
+        <aside class="chat-sidebar">
+          <h2>Conversar com a Hina</h2>
+          <p>Essa é uma interface inicial de conversa para apresentação. Ela pode ser integrada depois ao seu sistema real.</p>
+          <div class="feature-list">
+            <div class="feature-item">💬 Interface pronta</div>
+            <div class="feature-item">🧠 Respostas simuladas</div>
+            <div class="feature-item">🩷 Presença visual da Hina</div>
+            <div class="feature-item">⚙️ Base para integração futura</div>
+          </div>
+        </aside>
+
+        <div class="chat-main">
+          <div class="chat-topbar">
+            <div>
+              <h3>Hina</h3>
+              <div class="chat-status">Modo de demonstração</div>
+            </div>
+            <a class="ghost-btn" href="#essencia">Voltar ao topo</a>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <div class="message hina">Oi. Eu sou a Hina.
+Esse espaço já está pronto para receber a versão real da sua assistente.</div>
+            <div class="message hina">Por enquanto, eu respondo em modo de demonstração. Depois, você pode ligar essa interface ao seu backend ou ao sistema local.</div>
+          </div>
+
+          <div class="chat-inputbar">
+            <form class="chat-form" id="chatForm">
+              <input
+                class="chat-input"
+                id="chatInput"
+                type="text"
+                placeholder="Digite uma mensagem para a Hina..."
+                autocomplete="off"
+              />
+              <button class="send-btn" type="submit">Enviar</button>
+            </form>
+            <div class="chat-tip">Demonstração visual pronta para integração futura com a Hina real.</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -403,43 +655,53 @@
     </div>
   </main>
 
-  <div class="modal" id="chatModal" aria-hidden="true">
-    <div class="modal-card">
-      <h2>Conversa com a Hina</h2>
-      <p>A interface real de conversa ainda está em preparação. O site já está online, e a próxima etapa é ligar essa presença visual ao sistema da Hina.</p>
-      <div class="quote-box">
-        <p><strong>Em breve:</strong> chat interativo, presença contextual e experiência mais viva.</p>
-      </div>
-      <div class="modal-actions">
-        <button class="ghost-btn" id="closeModalBtn">Fechar</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    const modal = document.getElementById('chatModal');
-    const openers = [document.getElementById('openModalBtn'), document.getElementById('openModalBtn2')];
-    const closeBtn = document.getElementById('closeModalBtn');
+    const form = document.getElementById('chatForm');
+    const input = document.getElementById('chatInput');
+    const messages = document.getElementById('chatMessages');
 
-    openers.forEach(btn => {
-      if (btn) {
-        btn.addEventListener('click', () => {
-          modal.classList.add('open');
-          modal.setAttribute('aria-hidden', 'false');
-        });
-      }
-    });
+    const replies = {
+      default: 'Eu ainda estou em modo de demonstração visual, mas essa interface já está preparada para receber a Hina real.',
+      oi: 'Oi. Eu estou aqui. Ainda em demonstração, mas já com presença visual pronta.',
+      ola: 'Olá. O site já está online, e o próximo passo é integrar meu sistema real aqui.',
+      hina: 'Sim. Essa sou eu em versão pública inicial: presença, identidade e base de conversa.',
+      matematica: 'Matemática pode virar uma das áreas centrais da Hina. A interface já está pronta para evoluir junto com isso.',
+      poker: 'Poker também combina muito com a proposta dela: análise, didática e acompanhamento.',
+      site: 'O site já está no ar com domínio próprio. Agora a evolução natural é conectar a conversa real.',
+      chat: 'Essa área de chat já serve como base visual. Depois, basta trocar as respostas simuladas pela lógica real da Hina.'
+    };
 
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-    });
+    function addMessage(text, who) {
+      const bubble = document.createElement('div');
+      bubble.className = `message ${who}`;
+      bubble.textContent = text;
+      messages.appendChild(bubble);
+      messages.scrollTop = messages.scrollHeight;
+    }
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden', 'true');
-      }
+    function getReply(text) {
+      const normalized = text.toLowerCase();
+      if (normalized.includes('oi')) return replies.oi;
+      if (normalized.includes('olá') || normalized.includes('ola')) return replies.ola;
+      if (normalized.includes('hina')) return replies.hina;
+      if (normalized.includes('mat')) return replies.matematica;
+      if (normalized.includes('poker')) return replies.poker;
+      if (normalized.includes('site')) return replies.site;
+      if (normalized.includes('chat')) return replies.chat;
+      return replies.default;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, 'user');
+      input.value = '';
+
+      setTimeout(() => {
+        addMessage(getReply(text), 'hina');
+      }, 350);
     });
   </script>
 </body>
