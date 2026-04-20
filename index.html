@@ -1046,10 +1046,11 @@
           <span class="tag">Feedback by email</span>
           <h2 style="margin-bottom: .7rem;">Send a message</h2>
           <p class="small-note" style="margin-bottom: 1rem;">
-            This form opens the visitor’s email app with the message already prepared. It is a simple and functional solution for a static website.
+            This form is ready for real submission on a static site. Replace the Formspree endpoint in the HTML with your own form ID before publishing.
           </p>
 
-          <form id="feedbackForm" class="form-grid">
+          <!-- Replace REPLACE_WITH_YOUR_FORM_ID with your real Formspree form ID before publishing -->
+          <form id="feedbackForm" class="form-grid" action="https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID" method="POST">
             <div class="form-row">
               <label>
                 Name
@@ -1078,12 +1079,12 @@
             </label>
 
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary">Open email</button>
-              <a class="btn btn-secondary" href="mailto:philliplvt@gmail.com">Send directly</a>
+              <button type="submit" class="btn btn-primary" id="feedbackSubmitBtn">Send message</button>
+              <a class="btn btn-secondary" href="mailto:philliplvt@gmail.com">Email directly</a>
             </div>
 
             <p class="form-hint" id="formHint">
-              Note: this version opens the visitor’s email app. For fully automatic sending inside the site, a real form integration would still be needed.
+              Before publishing: create your form endpoint and replace REPLACE_WITH_YOUR_FORM_ID in the form action.
             </p>
           </form>
         </article>
@@ -1179,29 +1180,65 @@ This space is already ready to receive the real version of your assistant.</div>
       if (year) year.textContent = new Date().getFullYear();
 
       if (form) {
-        form.addEventListener('submit', function (event) {
+        const submitBtn = document.getElementById('feedbackSubmitBtn');
+
+        form.addEventListener('submit', async function (event) {
           event.preventDefault();
+
+          const endpoint = form.getAttribute('action') || '';
+          if (!endpoint || endpoint.includes('REPLACE_WITH_YOUR_FORM_ID')) {
+            if (hint) {
+              hint.textContent = 'Replace REPLACE_WITH_YOUR_FORM_ID in the form action with your real Formspree ID before publishing.';
+            }
+            return;
+          }
 
           const name = document.getElementById('name').value.trim();
           const email = document.getElementById('email').value.trim();
           const category = document.getElementById('category').value.trim();
           const message = document.getElementById('message').value.trim();
 
-          const subject = `[Hina Site] ${category || 'Contact'}`;
-          const body = [
-            `Name: ${name || '-'}`,
-            `Email: ${email || '-'}`,
-            `Type: ${category || '-'}`,
-            '',
-            'Message:',
-            message || '-'
-          ].join('\n');
+          const formData = new FormData();
+          formData.append('name', name);
+          formData.append('email', email);
+          formData.append('category', category);
+          formData.append('message', message);
+          formData.append('_subject', `[Hina Site] ${category || 'Contact'}`);
 
-          const mailto = `mailto:philliplvt@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-          window.location.href = mailto;
-
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+          }
           if (hint) {
-            hint.textContent = 'Your email app should open with the message ready. If it does not, use the “Send directly” button.';
+            hint.textContent = 'Sending your message...';
+          }
+
+          try {
+            const response = await fetch(endpoint, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                'Accept': 'application/json'
+              }
+            });
+
+            if (!response.ok) {
+              throw new Error('Submission failed');
+            }
+
+            form.reset();
+            if (hint) {
+              hint.textContent = 'Message sent successfully.';
+            }
+          } catch (error) {
+            if (hint) {
+              hint.textContent = 'Unable to send right now. Check the endpoint ID or try again later.';
+            }
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Send message';
+            }
           }
         });
       }
