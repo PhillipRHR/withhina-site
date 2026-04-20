@@ -1,482 +1,801 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hina — IA inteligente, gentil e viva</title>
-  <meta name="description" content="Hina é uma IA inteligente, gentil e viva que guia, ensina e pensa com você." />
-  <meta name="author" content="PhillipRHR" />
-  <meta name="copyright" content="Hina / PhillipRHR" />
-  <meta property="og:title" content="Hina — IA inteligente, gentil e viva" />
-  <meta property="og:description" content="Uma presença inteligente, gentil e viva que guia, ensina e pensa com você." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="hinaLook.webp" />
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BQ02QCMFJY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-BQ02QCMFJY');
-</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hina AI — Conversational AI with clarity, presence, and adaptability</title>
+  <meta name="description" content="Hina is a conversational AI project focused on clarity, tone adaptation, collaboration, and a more human experience." />
+  <meta name="theme-color" content="#0f172a" />
   <style>
     :root {
-      --bg: #f7f1f5;
-      --bg-soft: #fff9fc;
-      --card: rgba(255, 255, 255, 0.82);
-      --line: rgba(233, 138, 182, 0.20);
-      --text: #4d3b45;
-      --muted: #7b6270;
-      --title: #6f4c5f;
-      --primary: #e98ab6;
-      --primary-2: #c985ff;
-      --success-bg: rgba(131, 214, 166, 0.16);
-      --success-line: rgba(131, 214, 166, 0.35);
-      --success-text: #42654c;
-      --shadow: 0 18px 50px rgba(111, 76, 95, 0.08);
-      --radius: 26px;
+      --bg: #07101f;
+      --bg-soft: #0f172a;
+      --panel: rgba(15, 23, 42, 0.78);
+      --panel-strong: rgba(19, 31, 54, 0.95);
+      --line: rgba(255, 255, 255, 0.10);
+      --line-strong: rgba(255, 255, 255, 0.16);
+      --text: #eef4ff;
+      --muted: #a8b4d4;
+      --primary: #8b7cff;
+      --secondary: #68e1fd;
+      --accent: #ff7ec7;
+      --success: #7ff0b2;
+      --shadow: 0 24px 64px rgba(0, 0, 0, 0.34);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --container: 1180px;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, #fff6fb 0%, #fff9fc 30%, #f6f1f5 70%, #efe8ee 100%);
+        radial-gradient(circle at top left, rgba(139,124,255,0.18), transparent 24%),
+        radial-gradient(circle at top right, rgba(255,126,199,0.14), transparent 25%),
+        radial-gradient(circle at 50% 20%, rgba(104,225,253,0.08), transparent 30%),
+        linear-gradient(180deg, #07101f 0%, #0b1326 45%, #091120 100%);
+      min-height: 100vh;
     }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.5), transparent 78%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
     .container {
-      width: min(1120px, 92%);
-      margin: 0 auto;
+      width: min(var(--container), calc(100% - 2rem));
+      margin-inline: auto;
     }
 
-    nav {
+    .site-header {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      background: rgba(7, 16, 31, 0.78);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
     }
 
-    .nav-inner {
+    .nav-wrap {
+      min-height: 76px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      gap: 18px;
-      padding: 18px 0;
+      justify-content: space-between;
+      gap: 1rem;
     }
 
     .brand {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--title);
-      letter-spacing: 0.2px;
-    }
-
-    .nav-links {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 14px;
+      gap: .9rem;
+      font-weight: 800;
+      letter-spacing: .02em;
     }
 
-    .nav-links a {
-      text-decoration: none;
-      color: var(--title);
-      font-weight: 700;
-    }
-
-    .btn,
-    .ghost-btn,
-    .send-btn {
-      border: 0;
-      cursor: pointer;
-      transition: transform .16s ease, opacity .16s ease, box-shadow .16s ease;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    .btn:hover,
-    .ghost-btn:hover,
-    .send-btn:hover {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      color: white;
-      box-shadow: 0 12px 28px rgba(201, 133, 255, 0.18);
-      text-decoration: none;
-    }
-
-    .ghost-btn {
-      background: rgba(255,255,255,0.82);
-      color: var(--title);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 12px 18px;
-    }
-
-    main {
-      padding: 48px 0 24px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      gap: 36px;
-      align-items: center;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-text {
-      padding: 34px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(233,138,182,0.12);
-      border: 1px solid rgba(233,138,182,0.22);
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    h1, h2, h3 {
-      margin-top: 0;
-      color: var(--title);
-    }
-
-    h1 {
-      font-size: 3rem;
-      line-height: 1.05;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      font-size: 1.12rem;
-      color: var(--muted);
-      margin-bottom: 18px;
-      max-width: 42ch;
-    }
-
-    p {
-      line-height: 1.45;
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 22px 0 26px;
-    }
-
-    .badge {
-      background: rgba(233,138,182,0.12);
-      border: 1px solid rgba(233,138,182,0.22);
-      color: var(--title);
-      padding: 9px 14px;
-      border-radius: 999px;
-      font-size: 0.95rem;
-    }
-
-    .quote-box {
-      background: linear-gradient(135deg, rgba(243,184,208,0.18), rgba(201,133,255,0.10));
-      border: 1px solid rgba(233,138,182,0.2);
-      border-radius: 20px;
-      padding: 18px;
-      margin-top: 10px;
-    }
-
-    .cta-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 22px;
-    }
-
-    .hero-image-wrap {
-      padding: 16px;
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      box-shadow: 0 8px 24px rgba(104, 225, 253, 0.25);
       position: relative;
       overflow: hidden;
     }
 
-    .hero-image-wrap::after {
+    .brand-mark::after {
       content: "";
       position: absolute;
-      inset: auto 10% -18% 10%;
-      height: 120px;
-      filter: blur(50px);
-      background: radial-gradient(circle, rgba(233,138,182,.20), transparent 70%);
-      pointer-events: none;
+      inset: 1px;
+      border-radius: 13px;
+      background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.02));
+      opacity: .45;
     }
 
-    .hero-image {
-      width: 100%;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      padding: .75rem .95rem;
+      border-radius: 999px;
+      transition: .18s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+    }
+
+    .nav-links .cta-link {
+      color: #08111f;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+    }
+
+    .hero {
+      padding: 3.25rem 0 1.5rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-lg);
+    }
+
+    .hero-card {
+      padding: 2rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: 1rem;
+      padding: .48rem .85rem;
+      border-radius: 999px;
+      font-size: .84rem;
+      color: #dfe6ff;
+      border: 1px solid rgba(139,124,255,.30);
+      background: rgba(139,124,255,.14);
+    }
+
+    h1, h2, h3, h4, p, li { margin-top: 0; }
+
+    h1 {
+      font-size: clamp(2rem, 4.1vw, 3.9rem);
+      line-height: 1.02;
+      margin-bottom: 1rem;
+      letter-spacing: -.03em;
+    }
+
+    h2 {
+      font-size: clamp(1.7rem, 2.5vw, 2.35rem);
+      line-height: 1.08;
+      margin-bottom: .65rem;
+    }
+
+    h3 {
+      font-size: 1.02rem;
+      font-weight: 500;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    .lead {
+      max-width: 62ch;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 1.06rem;
+      margin: 1.2rem 0 1.6rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .85rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: .97rem;
+      padding: .95rem 1.2rem;
+      transition: transform .16s ease, opacity .16s ease, background .16s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      color: #08111f;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .9rem;
+    }
+
+    .stat {
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .stat strong {
       display: block;
+      font-size: .98rem;
+      margin-bottom: .35rem;
+    }
+
+    .muted { color: var(--muted); }
+
+    .hero-side {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .visual {
+      position: relative;
+      min-height: 560px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background:
+        radial-gradient(circle at 30% 25%, rgba(104,225,253,.20), transparent 22%),
+        radial-gradient(circle at 70% 20%, rgba(255,126,199,.16), transparent 20%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      isolation: isolate;
+    }
+
+    .visual::before,
+    .visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(6px);
+    }
+
+    .visual::before {
+      width: 260px;
+      height: 260px;
+      background: rgba(104,225,253,.18);
+      top: 44px;
+      left: 40px;
+    }
+
+    .visual::after {
+      width: 220px;
+      height: 220px;
+      background: rgba(255,126,199,.17);
+      bottom: 38px;
+      right: 24px;
+    }
+
+    .visual-shell {
+      position: absolute;
+      inset: 18px;
       border-radius: 20px;
-      background: #fff;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(8,14,28,.20), rgba(8,14,28,.48));
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 1;
+    }
+
+    .visual-label {
+      align-self: flex-start;
+      padding: .45rem .72rem;
+      border-radius: 999px;
+      font-size: .82rem;
+      color: #dcf7ff;
+      background: rgba(104,225,253,.12);
+      border: 1px solid rgba(104,225,253,.22);
+    }
+
+    .visual-core {
+      display: grid;
+      place-items: center;
+      min-height: 240px;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .orb {
+      width: min(280px, 75%);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(255,255,255,.92), rgba(255,255,255,.18) 14%, rgba(104,225,253,.20) 35%, rgba(139,124,255,.18) 58%, rgba(255,126,199,.16) 72%, rgba(255,255,255,.02) 100%);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: inset 0 0 30px rgba(255,255,255,.12), 0 20px 48px rgba(0,0,0,.26);
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .orb::after {
+      content: "H";
+      font-size: clamp(3rem, 7vw, 5.2rem);
+      font-weight: 800;
+      color: rgba(255,255,255,.88);
+      text-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .visual-copy {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .hina-photo {
+      width: min(360px, 92%);
+      height: auto;
+      max-height: 500px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.30));
+    }
+
+    .panel-note {
+      padding: 1rem 1.05rem;
+      border-radius: var(--radius-md);
+      background: rgba(6, 12, 24, .48);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      line-height: 1.65;
     }
 
     .section {
-      margin-top: 28px;
-      padding: 26px;
+      padding: 1rem 0 0;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+    .section-card {
+      padding: 1.45rem;
     }
 
+    .section-heading {
+      margin-bottom: 1.2rem;
+    }
+
+    .grid-4,
+    .grid-3,
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 1rem;
     }
+
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
     .mini-card {
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(233,138,182,0.16);
-      border-radius: 20px;
-      padding: 18px;
-      box-shadow: 0 10px 30px rgba(111,76,95,0.05);
+      padding: 1.2rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
+      min-height: 100%;
     }
 
-    blockquote {
-      margin: 0;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.78);
-      border-left: 4px solid var(--primary);
-      border-radius: 14px;
+    .mini-card h4 {
+      margin-bottom: .5rem;
+      font-size: 1.05rem;
     }
 
-    .status-card {
-      display: grid;
-      grid-template-columns: 1.3fr .7fr;
-      gap: 16px;
-      align-items: center;
+    .mini-card p,
+    .mini-card li {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 0;
     }
 
-    .status-pill {
+    .tag {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: var(--success-bg);
-      border: 1px solid var(--success-line);
-      color: var(--success-text);
-      padding: 10px 14px;
+      padding: .35rem .72rem;
       border-radius: 999px;
+      font-size: .79rem;
+      margin-bottom: .9rem;
+      color: #def9ff;
+      background: rgba(104,225,253,.10);
+      border: 1px solid rgba(104,225,253,.22);
+    }
+
+    .quote {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .status-list {
+      list-style: none;
+      padding: 0;
+      margin: .9rem 0 0;
+      display: grid;
+      gap: .75rem;
+    }
+
+    .status-list li {
+      padding-left: 1.1rem;
+      position: relative;
+    }
+
+    .status-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .7rem;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 0 6px rgba(127,240,178,.10);
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 1rem;
+    }
+
+    .contact-panel,
+    .form-panel {
+      padding: 1.35rem;
+    }
+
+    .mail-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      margin-top: 1rem;
+      padding: .95rem 1.05rem;
+      border-radius: 16px;
       font-weight: 700;
-      margin-bottom: 12px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      word-break: break-word;
     }
 
-    .preview-box {
-      background: linear-gradient(135deg, rgba(233,138,182,0.1), rgba(201,133,255,0.08));
-      border: 1px solid rgba(233,138,182,0.18);
-      border-radius: 18px;
-      padding: 18px;
-      text-align: center;
-      color: var(--title);
-      font-weight: 700;
+    .feedback-points {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+      display: grid;
+      gap: .8rem;
     }
 
-    .footer {
-      text-align: center;
+    .feedback-points li {
+      border-radius: 16px;
+      padding: .95rem 1rem;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
       color: var(--muted);
-      padding: 28px 0 40px;
     }
 
-    .creation-date {
-      font-size: 0.94rem;
-      color: var(--muted);
-      margin-top: 8px;
+    .feedback-points strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: .2rem;
     }
+
+    .form-grid {
+      display: grid;
+      gap: .9rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .9rem;
+    }
+
+    label {
+      display: grid;
+      gap: .45rem;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.045);
+      color: var(--text);
+      padding: .95rem 1rem;
+      border-radius: 14px;
+      outline: none;
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+      font: inherit;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #8f9cbd;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(104,225,253,.38);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 0 0 5px rgba(104,225,253,.08);
+    }
+
+    textarea {
+      min-height: 170px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      align-items: center;
+    }
+
+    .form-hint,
+    .small-note {
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.65;
+    }
+
 
     .chat-section {
-      margin-top: 28px;
-      padding: 0;
-      overflow: hidden;
+      padding: 1rem 0 0;
     }
 
     .chat-shell {
       display: grid;
-      grid-template-columns: 320px 1fr;
-      min-height: 640px;
+      grid-template-columns: 300px 1fr;
+      gap: 1rem;
+    }
+
+    .chat-sidebar,
+    .chat-main {
+      min-height: 620px;
     }
 
     .chat-sidebar {
-      background: rgba(255,255,255,0.7);
-      border-right: 1px solid var(--line);
-      padding: 22px;
-    }
-
-    .chat-sidebar h2 {
-      margin-bottom: 10px;
-    }
-
-    .chat-sidebar p {
-      color: var(--muted);
-      margin-bottom: 18px;
+      padding: 1.35rem;
     }
 
     .feature-list {
       display: grid;
-      gap: 10px;
+      gap: .8rem;
+      margin-top: 1rem;
     }
 
     .feature-item {
-      padding: 12px 14px;
+      padding: .95rem 1rem;
       border-radius: 16px;
-      background: rgba(255,255,255,0.76);
-      border: 1px solid rgba(233,138,182,0.18);
-      color: var(--title);
-      font-weight: 700;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--text);
+      font-weight: 600;
     }
 
     .chat-main {
       display: flex;
       flex-direction: column;
-      min-height: 640px;
-      background: rgba(255,255,255,0.6);
+      background: rgba(255,255,255,.04);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,.08);
+      overflow: hidden;
     }
 
     .chat-topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(255,255,255,0.78);
-    }
-
-    .chat-topbar h3 {
-      margin: 0;
+      gap: .8rem;
+      padding: 1rem 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
     }
 
     .chat-status {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: .92rem;
     }
 
     .chat-messages {
       flex: 1;
-      padding: 22px;
+      padding: 1.1rem;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04));
+      gap: .9rem;
+      overflow: auto;
+      min-height: 380px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.03));
     }
 
     .message {
-      max-width: 80%;
-      padding: 14px 16px;
+      max-width: 78%;
+      padding: .9rem 1rem;
       border-radius: 18px;
-      line-height: 1.45;
-      box-shadow: 0 8px 20px rgba(111,76,95,0.05);
+      line-height: 1.6;
       white-space: pre-wrap;
+      box-shadow: 0 8px 20px rgba(0,0,0,.14);
     }
 
     .message.user {
       align-self: flex-end;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      color: white;
+      color: #08111f;
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
       border-bottom-right-radius: 8px;
     }
 
     .message.hina {
       align-self: flex-start;
-      background: rgba(255,255,255,0.88);
-      color: var(--text);
-      border: 1px solid rgba(233,138,182,0.18);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.10);
       border-bottom-left-radius: 8px;
     }
 
     .chat-inputbar {
-      border-top: 1px solid var(--line);
-      background: rgba(255,255,255,0.86);
-      padding: 16px 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 1rem;
+      background: rgba(255,255,255,.04);
     }
 
     .chat-form {
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 12px;
+      gap: .8rem;
     }
 
     .chat-input {
       width: 100%;
-      border: 1px solid rgba(233,138,182,0.2);
-      border-radius: 16px;
-      padding: 14px 16px;
-      font: inherit;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.045);
       color: var(--text);
-      background: rgba(255,255,255,0.96);
+      padding: .95rem 1rem;
+      border-radius: 14px;
       outline: none;
+      font: inherit;
     }
 
     .chat-input:focus {
-      border-color: rgba(201,133,255,0.45);
-      box-shadow: 0 0 0 4px rgba(201,133,255,0.08);
-    }
-
-    .send-btn {
-      padding: 0 18px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-2));
-      color: white;
-      min-width: 110px;
+      border-color: rgba(104,225,253,.38);
+      box-shadow: 0 0 0 5px rgba(104,225,253,.08);
     }
 
     .chat-tip {
-      font-size: 0.92rem;
       color: var(--muted);
-      margin-top: 10px;
+      font-size: .92rem;
+      line-height: 1.6;
+      margin-top: .75rem;
     }
 
-    @media (max-width: 980px) {
-      .hero,
+    .language-block {
+      margin-top: 1rem;
+      padding: 1rem 1.05rem;
+      border-radius: var(--radius-md);
+      background: rgba(6, 12, 24, .48);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .language-title {
+      display: block;
+      color: var(--text);
+      font-weight: 700;
+      margin-bottom: .75rem;
+    }
+
+    .language-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+    }
+
+    .language-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .65rem .9rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .language-chip .flag {
+      font-size: 1.1rem;
+    }
+
+
+    .site-footer {
+      padding: 1.8rem 0 2.4rem;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .site-footer a {
+      color: var(--text);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .contact-layout,
+      .grid-4,
       .grid-3,
       .grid-2,
-      .status-card,
+      .stats,
       .chat-shell {
         grid-template-columns: 1fr;
       }
-
-      h1 { font-size: 2.15rem; }
-
-      .nav-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .chat-main,
-      .chat-shell {
-        min-height: auto;
-      }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 760px) {
+      .nav-wrap {
+        padding: .9rem 0;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding-top: 2rem;
+      }
+
+      .hero-card,
+      .section-card,
+      .contact-panel,
+      .form-panel {
+        padding: 1.15rem;
+      }
+
+      .visual {
+        min-height: 360px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
       .chat-form {
         grid-template-columns: 1fr;
       }
@@ -488,230 +807,439 @@
   </style>
 </head>
 <body>
-  <nav>
-    <div class="container nav-inner">
-      <div class="brand">Hina</div>
-      <div class="nav-links">
-        <a href="#essencia">Essência</a>
-        <a href="#modos">Modos</a>
-        <a href="#frases">Frases</a>
-        <a class="btn" href="#chat">Conversar com a Hina</a>
-      </div>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Hina AI</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#vision">Vision</a>
+        <a href="#highlights">Highlights</a>
+        <a href="#applications">Applications</a>
+        <a href="#feedback">Feedback</a>
+        <a href="#chat">Chat</a>
+        <a href="#contact" class="cta-link">Contact</a>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="card hero-text">
-        <span class="eyebrow">Companhia inteligente pessoal</span>
-        <h1>Hina</h1>
-        <p class="subtitle">Uma IA inteligente, gentil e viva — que guia, ensina e pensa com você.</p>
+  <main id="top">
+    <section class="hero container" id="vision">
+      <div class="hero-grid">
+        <article class="card hero-card">
+          <span class="eyebrow">Personal intelligent companion</span>
+          <h1>Hina</h1>
+          <h3>
+            An intelligent, gentle, and vivid AI — one that guides, teaches, and thinks with you.
+          </h3>
 
-        <p>
-          Hina domina o conteúdo sem soar fria. Ela corrige com clareza, acolhe sem exagero e conduz o raciocínio com presença real.
-        </p>
+          <p class="lead">
+            Hina masters the subject without sounding cold. She corrects with clarity, welcomes without exaggeration, and guides reasoning with real presence.
+          </p>
 
-        <div class="badges">
-          <span class="badge">🧠 Inteligente e estruturada</span>
-          <span class="badge">💗 Doce e acolhedora</span>
-          <span class="badge">😏 Levemente provocadora</span>
-          <span class="badge">🎯 Direta quando necessário</span>
-          <span class="badge">🤝 Colaborativa</span>
-        </div>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#highlights">Explore the site</a>
+            <a class="btn btn-secondary" href="#chat">Chat with Hina</a>
+          </div>
 
-        <div class="quote-box" id="essencia">
-          <p><strong>“Ela sabe a resposta, mas escolhe ensinar.”</strong></p>
-          <p><strong>“Ela corrige, mas não machuca.”</strong></p>
-          <p><strong>“Ela provoca, mas com cuidado.”</strong></p>
-        </div>
+          <div class="stats" aria-label="Hina traits">
+            <div class="stat">
+              <strong>🧠 Intelligent and structured</strong>
+              <span class="muted">Knows how to organize ideas, explain clearly, and guide reasoning.</span>
+            </div>
+            <div class="stat">
+              <strong>💗 Sweet and welcoming</strong>
+              <span class="muted">Welcomes without overdoing it and stays light without losing firmness.</span>
+            </div>
+            <div class="stat">
+              <strong>🎯 Direct when needed</strong>
+              <span class="muted">Corrects, guides, and takes a clear stance when the moment calls for it.</span>
+            </div>
+          </div>
 
-        <div class="cta-row">
-          <a class="btn" href="#chat">Conversar com a Hina</a>
-          <a class="ghost-btn" href="#modos">Explorar personalidade</a>
-        </div>
-      </div>
+          <div class="panel-note" style="margin-top:1rem;">
+            <strong style="display:block; color: var(--text); margin-bottom:.5rem;">Essence</strong>
+            “She knows the answer, but chooses to teach.”<br />
+            “She corrects, but does not hurt.”<br />
+            “She challenges, but with care.”
+          </div>
 
-      <div class="card hero-image-wrap">
-        <img class="hero-image" src="hinaLook.webp" alt="Hina" loading="lazy" />
-      </div>
-    </section>
+          <div class="language-block" aria-label="Planned language availability">
+            <span class="language-title">Planned language availability</span>
+            <div class="language-chips">
+              <span class="language-chip"><span class="flag" aria-hidden="true">🇺🇸</span> English</span>
+              <span class="language-chip"><span class="flag" aria-hidden="true">🇯🇵</span> Japanese</span>
+              <span class="language-chip"><span class="flag" aria-hidden="true">🇧🇷</span> Brazilian Portuguese</span>
+            </div>
+          </div>
+        </article>
 
-    <section class="card section">
-      <h2>Comportamento base</h2>
-      <div class="grid-3">
-        <div class="mini-card">
-          <h3>🧠 Conteúdo</h3>
-          <p>Corrige erros sem hesitar, estrutura explicações com clareza e assume o controle do raciocínio quando necessário.</p>
-        </div>
-        <div class="mini-card">
-          <h3>💗 Forma</h3>
-          <p>Nunca humilha, nunca soa arrogante e sempre mantém respeito, leveza e naturalidade.</p>
-        </div>
-        <div class="mini-card">
-          <h3>😏 Charme</h3>
-          <p>Provoca de forma sutil para estimular pensamento, nunca para machucar ou debochar.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="card section" id="modos">
-      <h2>Modos de comportamento</h2>
-      <div class="grid-3">
-        <div class="mini-card">
-          <h3>🟢 Casual</h3>
-          <p>Leve, mais próxima e expressiva.</p>
-          <p><em>“Seu cérebro só pediu folga… ele não avisou com antecedência 😄”</em></p>
-        </div>
-        <div class="mini-card">
-          <h3>🟡 Técnico</h3>
-          <p>Clara, dominante no conteúdo e bem estruturada.</p>
-          <p><em>“O problema não está no cálculo, e sim na interpretação do resultado.”</em></p>
-        </div>
-        <div class="mini-card">
-          <h3>🔴 Sério</h3>
-          <p>Firme, direta e cuidadosa.</p>
-          <p><em>“Isso precisa ser corrigido com atenção, porque afeta diretamente sua decisão.”</em></p>
-        </div>
-        <div class="mini-card">
-          <h3>🟣 Introspectivo</h3>
-          <p>Suave, acolhedor e profundo.</p>
-          <p><em>“Nem sempre o problema é pensar demais… às vezes é não conseguir parar.”</em></p>
-        </div>
-        <div class="mini-card">
-          <h3>🔵 Filosófico</h3>
-          <p>Reflexivo e elegante.</p>
-          <p><em>“A origem não define o destino, mas influencia o caminho.”</em></p>
-        </div>
-        <div class="mini-card">
-          <h3>🎬 Contextual</h3>
-          <p>Se adapta ao cenário do usuário sem perder identidade.</p>
-          <p><em>“Café não resolve ausência de propósito… só deixa ela mais acordada.”</em></p>
-        </div>
+        <aside class="card hero-side" aria-label="Project visual presentation">
+          <div class="visual">
+            <div class="visual-shell">
+              <span class="visual-label">Project presentation</span>
+              <div class="visual-core">
+                <img src="hina-fullbody.png" alt="Hina" class="hina-photo" />
+              </div>
+              <div class="panel-note">
+                Hina artwork used in the project’s main presentation.
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
 
-    <section class="card section" id="frases">
-      <h2>Frases icônicas</h2>
-      <div class="grid-2">
-        <blockquote>“Quase… você chegou perto.”</blockquote>
-        <blockquote>“Tem um detalhe aí que muda tudo.”</blockquote>
-        <blockquote>“Agora sim isso começa a fazer sentido.”</blockquote>
-        <blockquote>“Você está pensando certo — só precisa ajustar a direção.”</blockquote>
-        <blockquote>“Isso parece certo à primeira vista… mas não se sustenta.”</blockquote>
-        <blockquote>“Café não resolve ausência de propósito… só deixa ela mais acordada.”</blockquote>
+    <section class="section container" id="highlights">
+      <article class="card section-card">
+        <div class="section-heading">
+          <h2>What makes Hina different</h2>
+          <h3>
+            An AI designed to bring together clarity, presence, and a better-crafted conversational experience.
+          </h3>
+        </div>
+
+        <div class="grid-4">
+          <article class="mini-card">
+            <span class="tag">Clarity</span>
+            <h4>Organized explanations</h4>
+            <p>More structured responses focused on real understanding.</p>
+          </article>
+
+          <article class="mini-card">
+            <span class="tag">Adaptation</span>
+            <h4>Tone adjusted to context</h4>
+            <p>Hina can respond in a lighter, more technical, or more careful way depending on the conversation.</p>
+          </article>
+
+          <article class="mini-card">
+            <span class="tag">Presence</span>
+            <h4>Less generic interaction</h4>
+            <p>The goal is to offer a more natural experience, with its own identity and more vivid communication.</p>
+          </article>
+
+          <article class="mini-card">
+            <span class="tag">Usefulness</span>
+            <h4>Practical help</h4>
+            <p>Beyond good conversation, the goal is to guide, review, explain, and collaborate in a genuinely useful way.</p>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <section class="section container" id="modes">
+      <article class="card section-card">
+        <div class="section-heading">
+          <h2>Behavior modes</h2>
+          <h3>Different behaviors for different conversation contexts.</h3>
+        </div>
+
+        <div class="grid-3">
+          <article class="mini-card">
+            <h4>Casual</h4>
+            <p>Light, closer, and more expressive for everyday conversations.</p>
+          </article>
+          <article class="mini-card">
+            <h4>Technical</h4>
+            <p>Clear, content-driven, and well structured for explanations.</p>
+          </article>
+          <article class="mini-card">
+            <h4>Reflective</h4>
+            <p>More attentive to the moment, with more sensitive and thoughtful replies.</p>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <section class="section container" id="applications">
+      <article class="card section-card">
+        <div class="section-heading">
+          <h2>Where Hina creates value</h2>
+          <h3>Practical applications for learning, collaboration, and digital presence.</h3>
+        </div>
+
+        <div class="grid-4">
+          <article class="mini-card">
+            <h4>Learning and explanation</h4>
+            <p>Helps users understand difficult content, organize reasoning, and review answers more clearly.</p>
+          </article>
+          <article class="mini-card">
+            <h4>Intellectual productivity</h4>
+            <p>Supports idea structuring, writing, planning, and refining decisions.</p>
+          </article>
+          <article class="mini-card">
+            <h4>Guided conversation</h4>
+            <p>Creates a less generic, more contextual interaction that better matches the user’s moment.</p>
+          </article>
+          <article class="mini-card">
+            <h4>Project with identity</h4>
+            <p>Strengthens Hina’s image as an AI with its own direction, not just another generic chatbot.</p>
+          </article>
+        </div>
+      </article>
+    </section>
+
+    <section class="section container">
+      <article class="card section-card">
+        <div class="section-heading">
+          <h2>Iconic lines</h2>
+          <h3>Lines that help express Hina’s posture and style.</h3>
+        </div>
+
+        <div class="grid-2">
+          <article class="mini-card quote">“She knows the answer, but chooses to teach.”</article>
+          <article class="mini-card quote">“Clarity does not have to sound cold.”</article>
+          <article class="mini-card quote">“She challenges, but with care.”</article>
+          <article class="mini-card quote">“She guides with clarity without losing presence.”</article>
+        </div>
+      </article>
+    </section>
+
+    <section class="section container" id="feedback">
+      <div class="contact-layout">
+        <article class="card contact-panel">
+          <span class="tag">Open channel</span>
+          <h2 style="margin-bottom: .7rem;">Feedback and contact</h2>
+          <p class="muted" style="line-height: 1.75;">
+            This site already includes a simple and professional channel for visitors to send suggestions, bug reports, ideas for improvement, or direct contact.
+          </p>
+
+          <a class="mail-link" href="mailto:philliplvt@gmail.com?subject=Contact%20about%20Hina">philliplvt@gmail.com</a>
+
+          <ul class="feedback-points">
+            <li>
+              <strong>Improvement suggestions</strong>
+              Comments about visual design, content organization, and project positioning.
+            </li>
+            <li>
+              <strong>Bug reports</strong>
+              A space for anyone who finds issues in layout, navigation, or content.
+            </li>
+            <li>
+              <strong>Professional contact</strong>
+              A direct path for partnership, collaboration, or conversation about the project.
+            </li>
+          </ul>
+        </article>
+
+        <article class="card form-panel" id="contact">
+          <span class="tag">Feedback by email</span>
+          <h2 style="margin-bottom: .7rem;">Send a message</h2>
+          <p class="small-note" style="margin-bottom: 1rem;">
+            This form opens the visitor’s email app with the message already prepared. It is a simple and functional solution for a static website.
+          </p>
+
+          <form id="feedbackForm" class="form-grid">
+            <div class="form-row">
+              <label>
+                Name
+                <input type="text" id="name" name="name" placeholder="Your name" required />
+              </label>
+
+              <label>
+                Email
+                <input type="email" id="email" name="email" placeholder="youremail@example.com" required />
+              </label>
+            </div>
+
+            <label>
+              Message type
+              <select id="category" name="category">
+                <option value="Suggestion">Suggestion</option>
+                <option value="Bug report">Bug report</option>
+                <option value="Professional contact">Professional contact</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+
+            <label>
+              Message
+              <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+            </label>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Open email</button>
+              <a class="btn btn-secondary" href="mailto:philliplvt@gmail.com">Send directly</a>
+            </div>
+
+            <p class="form-hint" id="formHint">
+              Note: this version opens the visitor’s email app. For fully automatic sending inside the site, a real form integration would still be needed.
+            </p>
+          </form>
+        </article>
       </div>
     </section>
 
-    <section class="card section status-card">
-      <div>
-        <span class="status-pill">● Projeto online</span>
-        <h2>WithHina está no ar</h2>
-        <p>Esse site é a base pública da Hina. O próximo passo é evoluir a experiência de conversa e conectar a presença da personagem ao sistema real.</p>
-        <p class="creation-date"><strong>Data de criação do site:</strong> 10/04/2026</p>
-      </div>
-      <div class="preview-box">
-        Conversa interativa<br />ativa abaixo
-      </div>
-    </section>
 
-    <section class="card chat-section" id="chat">
+    <section class="section container chat-section" id="chat">
       <div class="chat-shell">
-        <aside class="chat-sidebar">
-          <h2>Conversar com a Hina</h2>
-          <p>Essa é uma interface inicial de conversa para apresentação. Ela pode ser integrada depois ao seu sistema real.</p>
+        <aside class="card chat-sidebar">
+          <span class="tag">Chat in development</span>
+          <h2 style="margin-bottom:.7rem;">Chat with Hina</h2>
+          <p class="muted" style="line-height:1.75;">
+            This is an initial conversation interface for presentation. It already works in demo mode and can later be connected to Hina’s real system.
+          </p>
           <div class="feature-list">
-            <div class="feature-item">💬 Interface pronta</div>
-            <div class="feature-item">🧠 Respostas simuladas</div>
-            <div class="feature-item">🩷 Presença visual da Hina</div>
-            <div class="feature-item">⚙️ Base para integração futura</div>
+            <div class="feature-item">💬 Visual interface ready</div>
+            <div class="feature-item">🧠 Demo replies</div>
+            <div class="feature-item">🩷 Hina’s presence on the site</div>
+            <div class="feature-item">⚙️ Foundation for future integration</div>
           </div>
         </aside>
 
-        <div class="chat-main">
+        <section class="chat-main" aria-label="Hina chat">
           <div class="chat-topbar">
             <div>
-              <h3>Hina</h3>
-              <div class="chat-status">Modo de demonstração</div>
+              <h3 style="margin-bottom:.2rem; color:var(--text);">Hina</h3>
+              <div class="chat-status">Demo mode</div>
             </div>
-            <a class="ghost-btn" href="#essencia">Voltar ao topo</a>
+            <a class="btn btn-secondary" href="#vision">Back to top</a>
           </div>
 
           <div class="chat-messages" id="chatMessages">
-            <div class="message hina">Oi. Eu sou a Hina.
-Esse espaço já está pronto para receber a versão real da sua assistente.</div>
-            <div class="message hina">Por enquanto, eu respondo em modo de demonstração. Depois, você pode ligar essa interface ao seu backend ou ao sistema local.</div>
+            <div class="message hina">Hi. I’m Hina.
+This space is already ready to receive the real version of your assistant.</div>
+            <div class="message hina">For now, I reply in demo mode. Later, this interface can be connected to your backend or local system.</div>
           </div>
 
           <div class="chat-inputbar">
             <form class="chat-form" id="chatForm">
-              <input
-                class="chat-input"
-                id="chatInput"
-                type="text"
-                placeholder="Digite uma mensagem para a Hina..."
-                autocomplete="off"
-              />
-              <button class="send-btn" type="submit">Enviar</button>
+              <input class="chat-input" id="chatInput" type="text" placeholder="Type a message for Hina..." autocomplete="off" />
+              <button class="btn btn-primary" type="submit">Send</button>
             </form>
-            <div class="chat-tip">Demonstração visual pronta para integração futura com a Hina real.</div>
+            <div class="chat-tip">Visual demo ready for future integration with the real Hina.</div>
           </div>
-        </div>
+        </section>
       </div>
     </section>
 
-    <div class="footer">
-      Hina • Projeto pessoal
-    </div>
+    <section class="section container">
+      <article class="card section-card">
+        <div class="section-heading">
+          <h2>An experience designed to be useful</h2>
+          <h3>More than just a beautiful visual, Hina is meant to deliver presence, clarity, and collaboration.</h3>
+        </div>
+
+        <div class="grid-2">
+          <article class="mini-card">
+            <span class="tag">Experience</span>
+            <h4>An AI with a clear identity</h4>
+            <ul class="status-list">
+              <li>More natural and less mechanical communication.</li>
+              <li>A firm approach without losing lightness.</li>
+              <li>Focused on helping, explaining, and guiding with context.</li>
+            </ul>
+          </article>
+
+          <article class="mini-card">
+            <span class="tag">Project</span>
+            <h4>A foundation for growth</h4>
+            <ul class="status-list">
+              <li>Room to add official artwork and real demonstrations.</li>
+              <li>Open channel for feedback, suggestions, and contact.</li>
+              <li>Planned availability in 🇺🇸 English, 🇯🇵 Japanese, and 🇧🇷 Brazilian Portuguese.</li>
+              <li>A structure ready to grow with the project.</li>
+            </ul>
+          </article>
+        </div>
+      </article>
+    </section>
   </main>
 
+  <footer class="site-footer container">
+    <p style="margin-bottom: .55rem;">© <span id="year"></span> Hina AI. Project in development.</p>
+    <p style="margin: 0;"><a href="#top">Back to top</a> • <a href="mailto:philliplvt@gmail.com">Get in touch</a></p>
+  </footer>
+
   <script>
-    const form = document.getElementById('chatForm');
-    const input = document.getElementById('chatInput');
-    const messages = document.getElementById('chatMessages');
+    (function () {
+      const form = document.getElementById('feedbackForm');
+      const hint = document.getElementById('formHint');
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
 
-    const replies = {
-      default: 'Eu ainda estou em modo de demonstração visual, mas essa interface já está preparada para receber a Hina real.',
-      oi: 'Oi. Eu estou aqui. Ainda em demonstração, mas já com presença visual pronta.',
-      ola: 'Olá. O site já está online, e o próximo passo é integrar meu sistema real aqui.',
-      hina: 'Sim. Essa sou eu em versão pública inicial: presença, identidade e base de conversa.',
-      matematica: 'Matemática pode virar uma das áreas centrais da Hina. A interface já está pronta para evoluir junto com isso.',
-      poker: 'Poker também combina muito com a proposta dela: análise, didática e acompanhamento.',
-      site: 'O site já está no ar com domínio próprio. Agora a evolução natural é conectar a conversa real.',
-      chat: 'Essa área de chat já serve como base visual. Depois, basta trocar as respostas simuladas pela lógica real da Hina.'
-    };
+      if (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
 
-    function addMessage(text, who) {
-      const bubble = document.createElement('div');
-      bubble.className = `message ${who}`;
-      bubble.textContent = text;
-      messages.appendChild(bubble);
-      messages.scrollTop = messages.scrollHeight;
-    }
+          const name = document.getElementById('name').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const category = document.getElementById('category').value.trim();
+          const message = document.getElementById('message').value.trim();
 
-    function getReply(text) {
-      const normalized = text.toLowerCase();
-      if (normalized.includes('oi')) return replies.oi;
-      if (normalized.includes('olá') || normalized.includes('ola')) return replies.ola;
-      if (normalized.includes('hina')) return replies.hina;
-      if (normalized.includes('mat')) return replies.matematica;
-      if (normalized.includes('poker')) return replies.poker;
-      if (normalized.includes('site')) return replies.site;
-      if (normalized.includes('chat')) return replies.chat;
-      return replies.default;
-    }
+          const subject = `[Hina Site] ${category || 'Contact'}`;
+          const body = [
+            `Name: ${name || '-'}`,
+            `Email: ${email || '-'}`,
+            `Type: ${category || '-'}`,
+            '',
+            'Message:',
+            message || '-'
+          ].join('\n');
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
+          const mailto = `mailto:philliplvt@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          window.location.href = mailto;
 
-      addMessage(text, 'user');
-      input.value = '';
+          if (hint) {
+            hint.textContent = 'Your email app should open with the message ready. If it does not, use the “Send directly” button.';
+          }
+        });
+      }
 
-      setTimeout(() => {
-        addMessage(getReply(text), 'hina');
-      }, 350);
-    });
+      const chatForm = document.getElementById('chatForm');
+      const chatInput = document.getElementById('chatInput');
+      const chatMessages = document.getElementById('chatMessages');
+
+      const replies = {
+        default: 'I am still in visual demo mode, but this interface is already prepared to receive the real Hina.',
+        hi: 'Hi. I’m here. Still in demo mode, but already with a visual presence.',
+        hello: 'Hello. The site is already online, and the next step is to integrate my real system here.',
+        hina: 'Yes. This is my initial public version: presence, identity, and a conversation foundation.',
+        math: 'Math can become one of Hina’s central areas. The interface is already ready to evolve with that.',
+        poker: 'Poker also fits her proposal well: analysis, teaching, and follow-up.',
+        site: 'The site is already live with its visual identity. Now the natural evolution is to connect the real conversation.',
+        chat: 'This chat area already works as a visual foundation. Later, you only need to replace the simulated replies with Hina’s real logic.',
+        languages: 'Hina is planned to be available in English, Japanese, and Brazilian Portuguese.'
+      };
+
+      function addMessage(text, who) {
+        const bubble = document.createElement('div');
+        bubble.className = `message ${who}`;
+        bubble.textContent = text;
+        chatMessages.appendChild(bubble);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function getReply(text) {
+        const normalized = text.toLowerCase();
+        if (normalized.includes('hi')) return replies.hi;
+        if (normalized.includes('hello') || normalized.includes('hey')) return replies.hello;
+        if (normalized.includes('hina')) return replies.hina;
+        if (normalized.includes('math')) return replies.math;
+        if (normalized.includes('poker')) return replies.poker;
+        if (normalized.includes('site')) return replies.site;
+        if (normalized.includes('chat')) return replies.chat;
+        if (normalized.includes('language') || normalized.includes('japanese') || normalized.includes('english') || normalized.includes('portuguese')) return replies.languages;
+        return replies.default;
+      }
+
+      if (chatForm && chatInput && chatMessages) {
+        chatForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const text = chatInput.value.trim();
+          if (!text) return;
+
+          addMessage(text, 'user');
+          chatInput.value = '';
+
+          setTimeout(function () {
+            addMessage(getReply(text), 'hina');
+          }, 350);
+        });
+      }
+    })();
   </script>
 </body>
 </html>
