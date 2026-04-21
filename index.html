@@ -4,21 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hina — IA inteligente, gentil e viva</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BQ02QCMFJY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-BQ02QCMFJY');
+  </script>
+
   <style>
     * {
       box-sizing: border-box;
     }
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-BQ02QCMFJY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-BQ02QCMFJY');
-</script>
-    
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -173,6 +173,28 @@
       box-shadow: 0 10px 30px rgba(111,76,95,0.05);
     }
 
+    .contact-card {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .contact-email {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #6f4c5f;
+      text-decoration: none;
+      background: rgba(233,138,182,0.12);
+      border: 1px solid rgba(233,138,182,0.22);
+      padding: 12px 18px;
+      border-radius: 999px;
+    }
+
+    .contact-email:hover {
+      background: rgba(233,138,182,0.18);
+    }
+
     blockquote {
       margin: 0;
       padding: 14px 16px;
@@ -212,7 +234,8 @@
       <div class="nav-links">
         <a href="#essencia">Essência</a>
         <a href="#modos">Modos</a>
-        <a class="btn" href="#frases">Frases</a>
+        <a href="#frases">Frases</a>
+        <a class="btn" href="#contact">Contact</a>
       </div>
     </div>
   </nav>
@@ -311,6 +334,12 @@
         <blockquote>“Isso parece certo à primeira vista… mas não se sustenta.”</blockquote>
         <blockquote>“Café não resolve ausência de propósito… só deixa ela mais acordada.”</blockquote>
       </div>
+    </section>
+
+    <section class="card section contact-card" id="contact">
+      <h2>Contact</h2>
+      <p>Para suporte, dúvidas ou contato direto:</p>
+      <a class="contact-email" href="mailto:support@withhina.com">support@withhina.com</a>
     </section>
 
     <div class="footer">
