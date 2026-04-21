@@ -88,22 +88,18 @@
     }
 
     .brand-mark {
-      width: 40px;
-      height: 40px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent), var(--secondary));
-      box-shadow: 0 8px 24px rgba(104, 225, 253, 0.25);
-      position: relative;
-      overflow: hidden;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      display: grid;
+      place-items: center;
+      filter: drop-shadow(0 10px 24px rgba(104, 225, 253, 0.18));
     }
 
-    .brand-mark::after {
-      content: "";
-      position: absolute;
-      inset: 1px;
-      border-radius: 13px;
-      background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.02));
-      opacity: .45;
+    .brand-mark svg {
+      width: 100%;
+      height: 100%;
+      display: block;
     }
 
     .nav-links {
@@ -828,7 +824,38 @@
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Go to top">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hina Kitsune logo">
+            <defs>
+              <linearGradient id="hk-bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#ff8fcb"/>
+                <stop offset="1" stop-color="#6fe3ff"/>
+              </linearGradient>
+              <linearGradient id="hk-main" x1="20" y1="10" x2="42" y2="48" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#ffd1e6"/>
+                <stop offset="0.48" stop-color="#ffb0cc"/>
+                <stop offset="1" stop-color="#7be3ff"/>
+              </linearGradient>
+              <linearGradient id="hk-side" x1="14" y1="18" x2="48" y2="50" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#ffa1c8"/>
+                <stop offset="1" stop-color="#78d8ff"/>
+              </linearGradient>
+            </defs>
+            <rect x="4.5" y="4.5" width="55" height="55" rx="18" fill="rgba(12,22,42,0.78)" stroke="rgba(255,255,255,0.16)"/>
+            <path d="M18 16 26 10 28.8 22.2 18 16Z" fill="url(#hk-side)"/>
+            <path d="M46 16 38 10 35.2 22.2 46 16Z" fill="url(#hk-side)"/>
+            <path d="M22 20.5 32 14 42 20.5 38.4 34.2 32 38.8 25.6 34.2 22 20.5Z" fill="url(#hk-main)"/>
+            <path d="M25.6 34.2 32 51 18.2 40.2 25.6 34.2Z" fill="url(#hk-side)"/>
+            <path d="M38.4 34.2 45.8 40.2 32 51 38.4 34.2Z" fill="url(#hk-side)"/>
+            <path d="M28.4 23.6 32 28.1 35.6 23.6 32 20.8 28.4 23.6Z" fill="#f7fbff" opacity="0.96"/>
+            <path d="M24.6 31.1 32 36.6 39.4 31.1 38.4 34.2 32 38.8 25.6 34.2 24.6 31.1Z" fill="#f7fbff" opacity="0.92"/>
+            <circle cx="28.6" cy="27.6" r="1.12" fill="#20304d"/>
+            <circle cx="35.4" cy="27.6" r="1.12" fill="#20304d"/>
+            <path d="M31 30.8h2l-1 1.3-1-1.3Z" fill="#20304d"/>
+            <path d="M28.4 33.1c1 .82 2.22 1.22 3.6 1.22 1.38 0 2.6-.4 3.6-1.22" fill="none" stroke="#20304d" stroke-linecap="round" stroke-width="1.15" opacity="0.85"/>
+            <path d="M8 32C8 19.85 17.85 10 30 10h4c12.15 0 22 9.85 22 22v4c0 12.15-9.85 22-22 22h-4C17.85 58 8 48.15 8 36v-4Z" fill="url(#hk-bg)" opacity="0.12"/>
+          </svg>
+        </span>
         <span>Hina AI</span>
       </a>
 
