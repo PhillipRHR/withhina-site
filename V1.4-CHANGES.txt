@@ -1,0 +1,22 @@
+WITHHINA v1.4 FULL
+
+Incluído nesta versão:
+- Hina como mascote no lado esquerdo;
+- mensagem da Hina no lado direito;
+- título principal reduzido;
+- layout desktop/mobile;
+- conversor de arquivos locais;
+- aba Link integrada ao backend do Render;
+- backend FastAPI + yt-dlp;
+- FFmpeg incluído via imageio-ffmpeg;
+- Google Analytics G-BQ02QCMFJY com consentimento;
+- SEO, favicon, sitemap, robots.txt e manifest;
+- páginas de Privacidade, Termos, Hina e 404;
+- configuração para GitHub Pages e Render.
+
+Backend configurado:
+https://withhina-converter-api.onrender.com
+
+Para atualizar o site:
+suba O CONTEÚDO desta pasta para a raiz da branch main do repositório
+PhillipRHR/withhina-site, preservando o arquivo CNAME.
