@@ -1,0 +1,24 @@
+WITHHINA v1.9 — PO TOKEN
+
+Arquitetura:
+withhina.com
+  -> FastAPI / yt-dlp
+  -> cliente YouTube mweb/web
+  -> bgutil PO Token Provider
+  -> FFmpeg
+  -> MP3
+
+Mudanças:
+- instala bgutil-ytdlp-pot-provider 1.3.2;
+- usa o PO Token Provider recomendado pelo ecossistema yt-dlp;
+- provider Node roda DENTRO do mesmo container, somente em 127.0.0.1:4416;
+- ele não fica exposto publicamente;
+- yt-dlp recebe extractor_args para mweb/web + provider bgutil HTTP;
+- mantém Piped como fallback;
+- sem cookies pessoais, conta Google ou API paga;
+- usa Docker porque precisamos de Python + Node no mesmo ambiente;
+- cache-busting atualizado para v1.9.0.
+
+IMPORTANTE:
+Esta versão precisa ser publicada como um NOVO serviço Docker no Render.
+O serviço Python antigo não executa Node.js/PO provider no mesmo runtime.

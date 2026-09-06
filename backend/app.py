@@ -79,6 +79,12 @@ INVIDIOUS_INSTANCES = [
 
 ALT_DISCOVERY_TIMEOUT = float(os.getenv("ALT_DISCOVERY_TIMEOUT", "6.5"))
 ALT_MEDIA_TIMEOUT = float(os.getenv("ALT_MEDIA_TIMEOUT", "25"))
+POT_PROVIDER_URL = os.getenv("POT_PROVIDER_URL", "http://127.0.0.1:4416").rstrip("/")
+
+YTDLP_EXTRACTOR_ARGS = {
+    "youtube": ["player_client=mweb,web"],
+    "youtubepot-bgutilhttp": [f"base_url={POT_PROVIDER_URL}"],
+}
 
 app = FastAPI(title="Hina Converter API", docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(
@@ -441,6 +447,7 @@ def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
             "skip_download": True,
             "socket_timeout": 20,
             "retries": 1,
+            "extractor_args": YTDLP_EXTRACTOR_ARGS,
         }
         with yt_dlp.YoutubeDL(probe_options) as ydl:
             info = ydl.extract_info(url, download=False)
@@ -524,7 +531,7 @@ async def create_download(payload: DownloadRequest, request: Request, background
     except Exception as exc:
         raise HTTPException(
             502,
-            "O YouTube bloqueou a rota principal e nenhum dos provedores alternativos gratuitos conseguiu entregar o áudio agora. Tente novamente em alguns instantes.",
+            "O YouTube recusou a rota com PO Token e os provedores alternativos também não conseguiram entregar o áudio agora. Tente novamente em alguns instantes.",
         ) from exc
 
     background_tasks.add_task(shutil.rmtree, temp_dir, True)

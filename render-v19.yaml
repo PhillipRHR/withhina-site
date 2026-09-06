@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: withhina-converter-v19
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: https://withhina.com,https://www.withhina.com
+      - key: MAX_DURATION_SECONDS
+        value: "3600"
+      - key: RATE_LIMIT_REQUESTS
+        value: "6"
+      - key: RATE_LIMIT_WINDOW
+        value: "600"
+      - key: POT_PROVIDER_URL
+        value: http://127.0.0.1:4416
