@@ -1,0 +1,14 @@
+WITHHINA v1.8 — CURRENT PIPED INSTANCES
+
+Correções principais:
+- substitui a lista antiga de servidores Piped pela lista pública atual do TeamPiped;
+- agora tenta 15 instâncias Piped atuais em paralelo;
+- remove Invidious do fallback padrão porque o registro oficial atual marca API pública como desativada;
+- adiciona logs visíveis no Render para cada instância que falhar;
+- registra quantos candidatos foram encontrados e qual provedor foi escolhido;
+- mantém yt-dlp + EJS + curl-cffi + FFmpeg;
+- cache-busting atualizado para v1.8.0.
+
+Objetivo:
+descobrir rapidamente quais instâncias atuais conseguem processar o vídeo sem depender
+de cookies pessoais, API paga ou aplicativo local.

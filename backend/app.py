@@ -21,6 +21,7 @@ from pydantic import BaseModel, Field
 
 
 logger = logging.getLogger("hina-converter")
+logger.setLevel(logging.INFO)
 
 MAX_DURATION_SECONDS = int(os.getenv("MAX_DURATION_SECONDS", "3600"))
 MAX_OUTPUT_BYTES = int(os.getenv("MAX_OUTPUT_BYTES", str(180 * 1024 * 1024)))
@@ -51,11 +52,20 @@ PIPED_API_INSTANCES = [
         "PIPED_API_INSTANCES",
         ",".join([
             "https://pipedapi.kavin.rocks",
-            "https://pipedapi.tokhmi.xyz",
-            "https://pipedapi.moomoo.me",
-            "https://pipedapi.syncpundit.io",
-            "https://api-piped.mha.fi",
-            "https://piped-api.garudalinux.org",
+            "https://pipedapi.leptons.xyz",
+            "https://pipedapi.nosebs.ru",
+            "https://pipedapi-libre.kavin.rocks",
+            "https://piped-api.privacy.com.de",
+            "https://pipedapi.adminforge.de",
+            "https://api.piped.yt",
+            "https://pipedapi.drgns.space",
+            "https://pipedapi.owo.si",
+            "https://pipedapi.ducks.party",
+            "https://piped-api.codespace.cz",
+            "https://pipedapi.reallyaweso.me",
+            "https://api.piped.private.coffee",
+            "https://pipedapi.darkness.services",
+            "https://pipedapi.orangenet.cc",
         ]),
     ).split(",")
     if value.strip()
@@ -63,14 +73,7 @@ PIPED_API_INSTANCES = [
 
 INVIDIOUS_INSTANCES = [
     value.strip().rstrip("/")
-    for value in os.getenv(
-        "INVIDIOUS_INSTANCES",
-        ",".join([
-            "https://inv.nadeko.net",
-            "https://invidious.nerdvpn.de",
-            "https://yt.chocolatemoo53.com",
-        ]),
-    ).split(",")
+    for value in os.getenv("INVIDIOUS_INSTANCES", "").split(",")
     if value.strip()
 ]
 
@@ -189,7 +192,7 @@ async def _piped_candidate(client: httpx.AsyncClient, api_base: str, video_id: s
     except HTTPException:
         raise
     except Exception as exc:
-        logger.info("Piped indisponível: %s (%s)", api_base, type(exc).__name__)
+        logger.warning("Piped indisponível: %s (%s)", api_base, type(exc).__name__)
         return None
 
 
@@ -226,14 +229,14 @@ async def _invidious_candidate(client: httpx.AsyncClient, base: str, video_id: s
     except HTTPException:
         raise
     except Exception as exc:
-        logger.info("Invidious indisponível: %s (%s)", base, type(exc).__name__)
+        logger.warning("Invidious indisponível: %s (%s)", base, type(exc).__name__)
         return None
 
 
 async def discover_alternative_candidates(video_id: str) -> list[dict[str, Any]]:
     timeout = httpx.Timeout(ALT_DISCOVERY_TIMEOUT, connect=min(4.0, ALT_DISCOVERY_TIMEOUT))
     headers = {
-        "User-Agent": "WithHina/1.7 (+https://withhina.com)",
+        "User-Agent": "WithHina/1.8 (+https://withhina.com)",
         "Accept": "application/json",
     }
 
@@ -253,7 +256,7 @@ async def discover_alternative_candidates(video_id: str) -> list[dict[str, Any]]
 
     # Prefer higher-quality streams, while keeping all successful providers as fallbacks.
     candidates.sort(key=lambda item: int(item.get("bitrate") or 0), reverse=True)
-    logger.info("Fallback discovery: %d candidato(s) para %s", len(candidates), video_id)
+    logger.warning("Fallback discovery: %d candidato(s) para %s", len(candidates), video_id)
     return candidates
 
 
@@ -273,7 +276,7 @@ async def _stream_is_reachable(candidate: dict[str, Any]) -> bool:
                         return True
         return False
     except Exception as exc:
-        logger.info(
+        logger.warning(
             "Stream inacessível: %s %s (%s)",
             candidate.get("source"),
             candidate.get("instance"),
@@ -310,7 +313,7 @@ async def choose_reachable_candidate(candidates: list[dict[str, Any]]) -> dict[s
                     for task in tasks:
                         if not task.done():
                             task.cancel()
-                    logger.info(
+                    logger.warning(
                         "Fallback escolhido: %s %s",
                         chosen.get("source"),
                         chosen.get("instance"),
@@ -396,7 +399,7 @@ async def fetch_alternative_stream(url: str, bitrate: int) -> tuple[Path, str, P
             raise
         except Exception as exc:
             last_error = exc
-            logger.info(
+            logger.warning(
                 "Fallback falhou após seleção: %s %s (%s)",
                 chosen.get("source"),
                 chosen.get("instance"),
