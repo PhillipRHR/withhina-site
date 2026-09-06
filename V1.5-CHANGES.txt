@@ -1,0 +1,10 @@
+WITHHINA v1.5
+
+Correções:
+- título principal visivelmente menor;
+- cache-busting em styles.css, config.js e app.js;
+- evita que o navegador continue mostrando CSS/JS antigos após deploy;
+- backend configurado para https://withhina-converter-api.onrender.com;
+- backend com imageio-ffmpeg para conversão MP3 no Render.
+
+Suba o conteúdo desta pasta para a raiz do repositório e substitua os arquivos.
