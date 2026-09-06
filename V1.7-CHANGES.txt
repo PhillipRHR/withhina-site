@@ -1,0 +1,25 @@
+WITHHINA v1.7 — MULTI-FALLBACK GRATUITO
+
+Objetivo:
+Aumentar a chance de um link do YouTube funcionar sem cookies pessoais,
+sem API paga e sem instalar aplicativo.
+
+Mudanças:
+- mantém yt-dlp como rota principal;
+- instala os extras oficiais do yt-dlp, incluindo EJS e curl-cffi;
+- tenta Piped e Invidious como provedores alternativos gratuitos;
+- consulta as instâncias alternativas em paralelo;
+- testa vários streams em paralelo e escolhe o primeiro acessível;
+- se um stream selecionado falhar durante o download, tenta outro;
+- reduz bastante o tempo desperdiçado esperando instâncias públicas fora do ar;
+- adiciona logs do provedor/instância escolhidos para diagnóstico;
+- mantém FFmpeg, Render, limite de tamanho, bitrate e rate limit;
+- cache-busting atualizado para v1.7.0.
+
+Observação:
+Piped e Invidious são serviços comunitários públicos. Podem sofrer rate limit,
+bloqueios ou indisponibilidade. Esta versão aumenta a redundância, mas não pode
+garantir que o YouTube sempre permita a extração.
+
+Backend:
+https://withhina-converter-api.onrender.com
