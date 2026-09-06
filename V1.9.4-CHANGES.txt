@@ -1,0 +1,20 @@
+WITHHINA v1.9.4 — MULTI-CLIENT YOUTUBE
+
+Estratégias internas, uma por vez:
+1. mweb + BgUtils PO Token
+2. visionos
+3. web_embedded
+4. android_vr
+5. web_safari + BgUtils PO Token
+6. Piped público como último fallback
+
+Por que uma por vez:
+- evita misturar formatos/tokens de clientes diferentes;
+- cada tentativa usa o mesmo client no probe e no download;
+- os logs do Render mostram início, falha e sucesso de cada estratégia.
+
+Detalhes:
+- android_vr pode cair para formato muxado (vídeo+áudio); FFmpeg extrai apenas o áudio;
+- web_embedded só funciona se o vídeo permitir incorporação;
+- web_safari é um último fallback e pode estar progressivamente restrito pelo YouTube;
+- sem cookies pessoais e sem API paga.

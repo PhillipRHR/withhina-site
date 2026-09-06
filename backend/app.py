@@ -114,14 +114,52 @@ ALT_DISCOVERY_TIMEOUT = float(os.getenv("ALT_DISCOVERY_TIMEOUT", "6.5"))
 ALT_MEDIA_TIMEOUT = float(os.getenv("ALT_MEDIA_TIMEOUT", "25"))
 POT_PROVIDER_URL = os.getenv("POT_PROVIDER_URL", "http://127.0.0.1:4416").rstrip("/")
 
-YTDLP_EXTRACTOR_ARGS = {
-    "youtube": {
-        "player_client": ["mweb"],
+YTDLP_STRATEGIES = [
+    {
+        "name": "mweb+pot",
+        "client": "mweb",
+        "use_pot": True,
+        "notes": "rota principal com BgUtils PO Token",
     },
-    "youtubepot-bgutilhttp": {
-        "base_url": [POT_PROVIDER_URL],
+    {
+        "name": "visionos",
+        "client": "visionos",
+        "use_pot": False,
+        "notes": "cliente Apple usado pelas versões atuais do yt-dlp",
     },
-}
+    {
+        "name": "web_embedded",
+        "client": "web_embedded",
+        "use_pot": False,
+        "notes": "rota sem PO Token para vídeos incorporáveis",
+    },
+    {
+        "name": "android_vr",
+        "client": "android_vr",
+        "use_pot": False,
+        "notes": "fallback Android VR; pode oferecer apenas formatos limitados",
+    },
+    {
+        "name": "web_safari",
+        "client": "web_safari",
+        "use_pot": True,
+        "notes": "último fallback web/HLS",
+    },
+]
+
+
+def extractor_args_for(strategy: dict[str, Any]) -> dict[str, dict[str, list[str]]]:
+    args: dict[str, dict[str, list[str]]] = {
+        "youtube": {
+            "player_client": [str(strategy["client"])],
+            "pot_trace": ["true"],
+        },
+    }
+    if strategy.get("use_pot"):
+        args["youtubepot-bgutilhttp"] = {
+            "base_url": [POT_PROVIDER_URL],
+        }
+    return args
 
 app = FastAPI(title="Hina Converter API", docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(
@@ -198,6 +236,7 @@ def should_try_piped(exc: Exception) -> bool:
         "http error 403",
         "forbidden",
         "unable to download webpage",
+        "youtube client strategies failed",
     )
     return any(signal in message for signal in signals)
 
@@ -279,7 +318,7 @@ async def _invidious_candidate(client: httpx.AsyncClient, base: str, video_id: s
 async def discover_alternative_candidates(video_id: str) -> list[dict[str, Any]]:
     timeout = httpx.Timeout(ALT_DISCOVERY_TIMEOUT, connect=min(4.0, ALT_DISCOVERY_TIMEOUT))
     headers = {
-        "User-Agent": "WithHina/1.9.3 (+https://withhina.com)",
+        "User-Agent": "WithHina/1.9.4 (+https://withhina.com)",
         "Accept": "application/json",
     }
 
@@ -474,8 +513,23 @@ def enforce_rate_limit(request: Request) -> None:
     bucket.append(now)
 
 
-def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
-    temp_dir = Path(tempfile.mkdtemp(prefix="hina_converter_"))
+def _download_audio_with_strategy(
+    url: str,
+    bitrate: int,
+    strategy: dict[str, Any],
+) -> tuple[Path, str, Path]:
+    temp_dir = Path(tempfile.mkdtemp(prefix=f"hina_{strategy['name'].replace('+', '_')}_"))
+    extractor_args = extractor_args_for(strategy)
+    strategy_name = str(strategy["name"])
+    client_name = str(strategy["client"])
+
+    logger.warning(
+        "YouTube strategy start: %s client=%s pot=%s",
+        strategy_name,
+        client_name,
+        bool(strategy.get("use_pot")),
+    )
+
     try:
         probe_options = {
             "quiet": False,
@@ -485,25 +539,35 @@ def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
             "skip_download": True,
             "socket_timeout": 20,
             "retries": 1,
-            "extractor_args": YTDLP_EXTRACTOR_ARGS,
+            "extractor_args": extractor_args,
             "logger": YTDLP_DIAGNOSTIC_LOGGER,
         }
+
         with yt_dlp.YoutubeDL(probe_options) as ydl:
             info = ydl.extract_info(url, download=False)
 
         duration = int(info.get("duration") or 0)
         if not duration:
-            raise HTTPException(400, "Não foi possível verificar a duração desse conteúdo.")
+            raise RuntimeError(
+                f"{strategy_name}: não foi possível verificar a duração do conteúdo."
+            )
         if duration > MAX_DURATION_SECONDS:
             minutes = MAX_DURATION_SECONDS // 60
             raise HTTPException(400, f"O conteúdo ultrapassa o limite de {minutes} minutos.")
 
         title = info.get("title") or "audio"
-        video_id = re.sub(r"[^a-zA-Z0-9_-]", "", str(info.get("id") or "audio"))[:80] or "audio"
+        video_id = re.sub(
+            r"[^a-zA-Z0-9_-]",
+            "",
+            str(info.get("id") or "audio"),
+        )[:80] or "audio"
         output_template = str(temp_dir / f"{video_id}.%(ext)s")
 
         download_options = {
             "ffmpeg_location": FFMPEG_EXE,
+            # Some fallback clients (notably android_vr) may only expose a
+            # muxed A/V format. "bestaudio/best" intentionally allows that
+            # final "best" fallback; FFmpeg extracts only the audio below.
             "format": "bestaudio/best",
             "outtmpl": output_template,
             "quiet": False,
@@ -515,7 +579,7 @@ def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
             "fragment_retries": 2,
             "continuedl": False,
             "overwrites": True,
-            "extractor_args": YTDLP_EXTRACTOR_ARGS,
+            "extractor_args": extractor_args,
             "logger": YTDLP_DIAGNOSTIC_LOGGER,
             "postprocessors": [{
                 "key": "FFmpegExtractAudio",
@@ -529,16 +593,54 @@ def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
 
         candidates = list(temp_dir.glob("*.mp3"))
         if not candidates:
-            raise RuntimeError("O arquivo final não foi gerado.")
+            raise RuntimeError(
+                f"{strategy_name}: o arquivo final não foi gerado."
+            )
 
         output = candidates[0]
         if output.stat().st_size > MAX_OUTPUT_BYTES:
             raise HTTPException(413, "O MP3 final ficou grande demais para este serviço.")
 
-        return output, clean_filename(title), temp_dir
-    except Exception:
+        logger.warning(
+            "YouTube strategy success: %s client=%s",
+            strategy_name,
+            client_name,
+        )
+        return output, clean_filename(str(title)), temp_dir
+
+    except HTTPException:
         shutil.rmtree(temp_dir, ignore_errors=True)
         raise
+    except Exception as exc:
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        logger.warning(
+            "YouTube strategy failed: %s client=%s (%s): %s",
+            strategy_name,
+            client_name,
+            type(exc).__name__,
+            str(exc)[:500],
+        )
+        raise
+
+
+def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
+    failures: list[str] = []
+
+    for strategy in YTDLP_STRATEGIES:
+        try:
+            return _download_audio_with_strategy(url, bitrate, strategy)
+        except HTTPException:
+            raise
+        except Exception as exc:
+            failures.append(
+                f"{strategy['name']}={type(exc).__name__}:{str(exc)[:180]}"
+            )
+
+    # The endpoint recognizes this marker and then executes the public-provider
+    # fallback as the final route.
+    raise RuntimeError(
+        "youtube client strategies failed | " + " | ".join(failures)
+    )
 
 
 @app.get("/health")
