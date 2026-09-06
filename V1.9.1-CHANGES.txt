@@ -1,0 +1,7 @@
+WITHHINA v1.9.1 — RENDER STARTUP FIX
+
+Fixes:
+- removes unsupported --host option from BgUtils provider;
+- waits on /ping instead of /, because / intentionally returns HTTP 400;
+- leaves uvicorn bound to Render's public PORT;
+- no other backend logic changed.
