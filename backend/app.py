@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 
 import yt_dlp
 import imageio_ffmpeg
+import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -39,6 +40,22 @@ ORIGINS = [
 ]
 
 FFMPEG_EXE = imageio_ffmpeg.get_ffmpeg_exe()
+
+PIPED_API_INSTANCES = [
+    value.strip().rstrip("/")
+    for value in os.getenv(
+        "PIPED_API_INSTANCES",
+        ",".join([
+            "https://pipedapi.kavin.rocks",
+            "https://pipedapi.tokhmi.xyz",
+            "https://pipedapi.moomoo.me",
+            "https://pipedapi.syncpundit.io",
+            "https://api-piped.mha.fi",
+            "https://piped-api.garudalinux.org",
+        ]),
+    ).split(",")
+    if value.strip()
+]
 
 app = FastAPI(title="Hina Converter API", docs_url=None, redoc_url=None, openapi_url=None)
 app.add_middleware(
@@ -85,6 +102,124 @@ def validate_youtube_url(value: str) -> str:
     if parsed.username or parsed.password:
         raise HTTPException(400, "Link inválido.")
     return value
+
+
+def extract_youtube_video_id(value: str) -> str:
+    parsed = urlparse(value)
+    host = (parsed.hostname or "").lower()
+    if host in {"youtu.be", "www.youtu.be"}:
+        video_id = parsed.path.strip("/").split("/", 1)[0]
+    else:
+        from urllib.parse import parse_qs
+        if parsed.path.startswith("/shorts/"):
+            video_id = parsed.path.split("/shorts/", 1)[1].split("/", 1)[0]
+        elif parsed.path.startswith("/embed/"):
+            video_id = parsed.path.split("/embed/", 1)[1].split("/", 1)[0]
+        else:
+            video_id = parse_qs(parsed.query).get("v", [""])[0]
+
+    if not re.fullmatch(r"[A-Za-z0-9_-]{6,20}", video_id or ""):
+        raise HTTPException(400, "Não foi possível identificar o vídeo do YouTube.")
+    return video_id
+
+
+def should_try_piped(exc: Exception) -> bool:
+    message = str(exc).lower()
+    signals = (
+        "not a bot",
+        "sign in to confirm",
+        "cookies",
+        "http error 403",
+        "forbidden",
+        "unable to download webpage",
+    )
+    return any(signal in message for signal in signals)
+
+
+def fetch_piped_stream(url: str, bitrate: int) -> tuple[Path, str, Path]:
+    video_id = extract_youtube_video_id(url)
+    last_error: Exception | None = None
+
+    for api_base in PIPED_API_INSTANCES:
+        temp_dir = Path(tempfile.mkdtemp(prefix="hina_piped_"))
+        try:
+            timeout = httpx.Timeout(25.0, connect=10.0)
+            headers = {
+                "User-Agent": "WithHina/1.6 (+https://withhina.com)",
+                "Accept": "application/json",
+            }
+            with httpx.Client(timeout=timeout, follow_redirects=True, headers=headers) as client:
+                response = client.get(f"{api_base}/streams/{video_id}")
+                response.raise_for_status()
+                payload = response.json()
+
+                duration = int(payload.get("duration") or 0)
+                if not duration:
+                    raise RuntimeError("Instância não retornou a duração.")
+                if duration > MAX_DURATION_SECONDS:
+                    minutes = MAX_DURATION_SECONDS // 60
+                    raise HTTPException(400, f"O conteúdo ultrapassa o limite de {minutes} minutos.")
+
+                streams = [
+                    stream
+                    for stream in (payload.get("audioStreams") or [])
+                    if stream.get("url") and not stream.get("videoOnly", False)
+                ]
+                if not streams:
+                    raise RuntimeError("Instância não retornou áudio.")
+
+                # Prefer higher-bitrate audio. We transcode to the requested MP3 bitrate afterwards.
+                streams.sort(key=lambda item: int(item.get("bitrate") or 0), reverse=True)
+                stream_url = streams[0]["url"]
+
+                source_path = temp_dir / "source_audio"
+                total = 0
+                with client.stream("GET", stream_url) as media:
+                    media.raise_for_status()
+                    with source_path.open("wb") as handle:
+                        for chunk in media.iter_bytes(1024 * 1024):
+                            if not chunk:
+                                continue
+                            total += len(chunk)
+                            if total > MAX_OUTPUT_BYTES:
+                                raise HTTPException(413, "O áudio ficou grande demais para este serviço.")
+                            handle.write(chunk)
+
+                output = temp_dir / "output.mp3"
+                import subprocess
+                process = subprocess.run(
+                    [
+                        FFMPEG_EXE,
+                        "-y",
+                        "-i", str(source_path),
+                        "-vn",
+                        "-codec:a", "libmp3lame",
+                        "-b:a", f"{bitrate}k",
+                        str(output),
+                    ],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    timeout=120,
+                )
+                if process.returncode != 0 or not output.exists():
+                    raise RuntimeError("FFmpeg não conseguiu converter o áudio retornado pela instância.")
+
+                if output.stat().st_size > MAX_OUTPUT_BYTES:
+                    raise HTTPException(413, "O MP3 final ficou grande demais para este serviço.")
+
+                title = payload.get("title") or f"youtube-{video_id}"
+                return output, clean_filename(title), temp_dir
+
+        except HTTPException:
+            shutil.rmtree(temp_dir, ignore_errors=True)
+            raise
+        except Exception as exc:
+            last_error = exc
+            shutil.rmtree(temp_dir, ignore_errors=True)
+            continue
+
+    raise RuntimeError(f"Nenhuma instância Piped conseguiu processar o vídeo: {last_error}")
 
 
 def client_address(request: Request) -> str:
@@ -180,16 +315,29 @@ async def create_download(payload: DownloadRequest, request: Request, background
     url = validate_youtube_url(payload.url.strip())
 
     try:
-        path, filename, temp_dir = await asyncio.wait_for(
-            asyncio.to_thread(download_audio, url, payload.bitrate),
-            timeout=180,
-        )
+        try:
+            path, filename, temp_dir = await asyncio.wait_for(
+                asyncio.to_thread(download_audio, url, payload.bitrate),
+                timeout=120,
+            )
+        except Exception as first_error:
+            if isinstance(first_error, HTTPException):
+                raise
+            if not should_try_piped(first_error):
+                raise
+            path, filename, temp_dir = await asyncio.wait_for(
+                asyncio.to_thread(fetch_piped_stream, url, payload.bitrate),
+                timeout=180,
+            )
     except asyncio.TimeoutError as exc:
-        raise HTTPException(504, "O processamento demorou demais. Tente outro conteúdo.") from exc
+        raise HTTPException(504, "O processamento demorou demais. Tente novamente em alguns instantes.") from exc
     except HTTPException:
         raise
     except Exception as exc:
-        raise HTTPException(502, "Não foi possível preparar o áudio desse link.") from exc
+        raise HTTPException(
+            502,
+            "O YouTube bloqueou o servidor principal e os servidores alternativos gratuitos também não responderam. Tente novamente mais tarde.",
+        ) from exc
 
     background_tasks.add_task(shutil.rmtree, temp_dir, True)
     return FileResponse(

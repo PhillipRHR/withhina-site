@@ -1,0 +1,18 @@
+WITHHINA v1.6 — FALLBACK GRATUITO PARA YOUTUBE
+
+Esta versão:
+- mantém yt-dlp como primeira tentativa;
+- se o YouTube responder "Sign in to confirm you're not a bot", tenta instâncias públicas do Piped;
+- seleciona um stream de áudio retornado pelo Piped;
+- converte o áudio para MP3 no backend com FFmpeg;
+- não usa cookies pessoais;
+- não exige serviço pago;
+- mantém o título menor e o cache-busting da v1.5.
+
+IMPORTANTE:
+As instâncias Piped são serviços públicos/comunitários. Elas podem aplicar rate limit,
+ficar fora do ar ou deixar de funcionar. Portanto, esta solução é adequada como beta
+gratuito, mas não é uma garantia de disponibilidade para um serviço de grande escala.
+
+Backend atual:
+https://withhina-converter-api.onrender.com
