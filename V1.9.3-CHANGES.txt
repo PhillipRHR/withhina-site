@@ -1,0 +1,14 @@
+WITHHINA v1.9.3 — YT-DLP PYTHON API PO TOKEN FIX
+
+Correção crítica:
+- o formato de extractor_args usado anteriormente era o formato textual/CLI;
+- na API Python do yt-dlp, extractor_args precisa ser um dicionário aninhado;
+- agora usa:
+  youtube -> player_client -> [mweb]
+  youtubepot-bgutilhttp -> base_url -> [http://127.0.0.1:4416]
+
+Também:
+- aplica os mesmos extractor_args tanto no probe quanto no download real;
+- ativa logs filtrados para confirmar no Render se o provider bgutil foi carregado;
+- mantém Piped como fallback;
+- sem cookies e sem API paga.

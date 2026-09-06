@@ -23,6 +23,39 @@ from pydantic import BaseModel, Field
 logger = logging.getLogger("hina-converter")
 logger.setLevel(logging.INFO)
 
+class YTDLPDiagnosticLogger:
+    def _emit(self, level: str, message: str) -> None:
+        text = str(message)
+        lowered = text.lower()
+        interesting = (
+            "[pot]" in lowered
+            or "po token" in lowered
+            or "bgutil" in lowered
+            or "player client" in lowered
+            or "player_client" in lowered
+        )
+        if not interesting and level == "debug":
+            return
+        if level == "error":
+            logger.error("yt-dlp: %s", text)
+        else:
+            logger.warning("yt-dlp: %s", text)
+
+    def debug(self, message: str) -> None:
+        self._emit("debug", message)
+
+    def info(self, message: str) -> None:
+        self._emit("info", message)
+
+    def warning(self, message: str) -> None:
+        self._emit("warning", message)
+
+    def error(self, message: str) -> None:
+        self._emit("error", message)
+
+
+YTDLP_DIAGNOSTIC_LOGGER = YTDLPDiagnosticLogger()
+
 MAX_DURATION_SECONDS = int(os.getenv("MAX_DURATION_SECONDS", "3600"))
 MAX_OUTPUT_BYTES = int(os.getenv("MAX_OUTPUT_BYTES", str(180 * 1024 * 1024)))
 RATE_LIMIT_REQUESTS = int(os.getenv("RATE_LIMIT_REQUESTS", "6"))
@@ -82,8 +115,12 @@ ALT_MEDIA_TIMEOUT = float(os.getenv("ALT_MEDIA_TIMEOUT", "25"))
 POT_PROVIDER_URL = os.getenv("POT_PROVIDER_URL", "http://127.0.0.1:4416").rstrip("/")
 
 YTDLP_EXTRACTOR_ARGS = {
-    "youtube": ["player_client=mweb,web"],
-    "youtubepot-bgutilhttp": [f"base_url={POT_PROVIDER_URL}"],
+    "youtube": {
+        "player_client": ["mweb"],
+    },
+    "youtubepot-bgutilhttp": {
+        "base_url": [POT_PROVIDER_URL],
+    },
 }
 
 app = FastAPI(title="Hina Converter API", docs_url=None, redoc_url=None, openapi_url=None)
@@ -242,7 +279,7 @@ async def _invidious_candidate(client: httpx.AsyncClient, base: str, video_id: s
 async def discover_alternative_candidates(video_id: str) -> list[dict[str, Any]]:
     timeout = httpx.Timeout(ALT_DISCOVERY_TIMEOUT, connect=min(4.0, ALT_DISCOVERY_TIMEOUT))
     headers = {
-        "User-Agent": "WithHina/1.8 (+https://withhina.com)",
+        "User-Agent": "WithHina/1.9.3 (+https://withhina.com)",
         "Accept": "application/json",
     }
 
@@ -441,13 +478,15 @@ def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
     temp_dir = Path(tempfile.mkdtemp(prefix="hina_converter_"))
     try:
         probe_options = {
-            "quiet": True,
-            "no_warnings": True,
+            "quiet": False,
+            "verbose": True,
+            "no_warnings": False,
             "noplaylist": True,
             "skip_download": True,
             "socket_timeout": 20,
             "retries": 1,
             "extractor_args": YTDLP_EXTRACTOR_ARGS,
+            "logger": YTDLP_DIAGNOSTIC_LOGGER,
         }
         with yt_dlp.YoutubeDL(probe_options) as ydl:
             info = ydl.extract_info(url, download=False)
@@ -467,14 +506,17 @@ def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
             "ffmpeg_location": FFMPEG_EXE,
             "format": "bestaudio/best",
             "outtmpl": output_template,
-            "quiet": True,
-            "no_warnings": True,
+            "quiet": False,
+            "verbose": True,
+            "no_warnings": False,
             "noplaylist": True,
             "socket_timeout": 30,
             "retries": 2,
             "fragment_retries": 2,
             "continuedl": False,
             "overwrites": True,
+            "extractor_args": YTDLP_EXTRACTOR_ARGS,
+            "logger": YTDLP_DIAGNOSTIC_LOGGER,
             "postprocessors": [{
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
