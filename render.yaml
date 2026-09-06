@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: hina-converter-api
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: ALLOWED_ORIGINS
+        value: https://withhina.com,https://www.withhina.com
+      - key: MAX_DURATION_SECONDS
+        value: "3600"
+      - key: RATE_LIMIT_REQUESTS
+        value: "6"
+      - key: RATE_LIMIT_WINDOW
+        value: "600"

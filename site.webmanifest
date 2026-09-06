@@ -1,0 +1,10 @@
+{
+  "name": "Hina Converter",
+  "short_name": "Hina",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff8fb",
+  "theme_color": "#fff8fb",
+  "description": "Converta arquivos de áudio e vídeo para MP3 com o Hina Converter.",
+  "icons": []
+}
