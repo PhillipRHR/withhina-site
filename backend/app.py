@@ -113,37 +113,85 @@ INVIDIOUS_INSTANCES = [
 ALT_DISCOVERY_TIMEOUT = float(os.getenv("ALT_DISCOVERY_TIMEOUT", "6.5"))
 ALT_MEDIA_TIMEOUT = float(os.getenv("ALT_MEDIA_TIMEOUT", "25"))
 POT_PROVIDER_URL = os.getenv("POT_PROVIDER_URL", "http://127.0.0.1:4416").rstrip("/")
+YOUTUBE_COOKIES_SECRET = Path(
+    os.getenv("YOUTUBE_COOKIES_FILE", "/etc/secrets/youtube-cookies.txt")
+)
+YOUTUBE_USER_AGENT = os.getenv("YOUTUBE_USER_AGENT", "").strip()
+
+
+def cookie_secret_status() -> tuple[bool, str]:
+    path = YOUTUBE_COOKIES_SECRET
+    if not path.exists():
+        return False, "missing"
+    if not path.is_file():
+        return False, "not-a-file"
+    try:
+        first_line = path.read_text(encoding="utf-8", errors="ignore").splitlines()[0].strip()
+    except Exception:
+        return False, "unreadable"
+    if first_line not in {"# Netscape HTTP Cookie File", "# HTTP Cookie File"}:
+        return False, "invalid-format"
+    return True, "ready"
+
+
+def attach_cookie_options(options: dict[str, Any], temp_dir: Path) -> None:
+    ready, status = cookie_secret_status()
+    if not ready:
+        logger.warning("YouTube cookies: %s", status)
+        return
+
+    # Render secret files are mounted at /etc/secrets. Copy to a request-local,
+    # writable file so yt-dlp can safely manage its cookie jar without touching
+    # the secret mount.
+    runtime_cookie = temp_dir / "youtube-cookies.txt"
+    shutil.copyfile(YOUTUBE_COOKIES_SECRET, runtime_cookie)
+    try:
+        runtime_cookie.chmod(0o600)
+    except OSError:
+        pass
+
+    options["cookiefile"] = str(runtime_cookie)
+    if YOUTUBE_USER_AGENT:
+        headers = dict(options.get("http_headers") or {})
+        headers["User-Agent"] = YOUTUBE_USER_AGENT
+        options["http_headers"] = headers
 
 YTDLP_STRATEGIES = [
     {
-        "name": "mweb+pot",
-        "client": "mweb",
+        "name": "web+cookies+pot",
+        "client": "web",
         "use_pot": True,
-        "notes": "rota principal com BgUtils PO Token",
+        "notes": "rota autenticada web + cookiefile + BgUtils",
     },
     {
-        "name": "visionos",
-        "client": "visionos",
-        "use_pot": False,
-        "notes": "cliente Apple usado pelas versões atuais do yt-dlp",
+        "name": "mweb+cookies+pot",
+        "client": "mweb",
+        "use_pot": True,
+        "notes": "rota autenticada mweb + cookiefile + BgUtils",
     },
     {
         "name": "web_embedded",
         "client": "web_embedded",
         "use_pot": False,
-        "notes": "rota sem PO Token para vídeos incorporáveis",
+        "notes": "fallback para vídeos incorporáveis",
+    },
+    {
+        "name": "visionos",
+        "client": "visionos",
+        "use_pot": False,
+        "notes": "fallback Apple",
     },
     {
         "name": "android_vr",
         "client": "android_vr",
         "use_pot": False,
-        "notes": "fallback Android VR; pode oferecer apenas formatos limitados",
+        "notes": "fallback Android VR",
     },
     {
-        "name": "web_safari",
+        "name": "web_safari+pot",
         "client": "web_safari",
         "use_pot": True,
-        "notes": "último fallback web/HLS",
+        "notes": "último fallback web/HLS com BgUtils",
     },
 ]
 
@@ -318,7 +366,7 @@ async def _invidious_candidate(client: httpx.AsyncClient, base: str, video_id: s
 async def discover_alternative_candidates(video_id: str) -> list[dict[str, Any]]:
     timeout = httpx.Timeout(ALT_DISCOVERY_TIMEOUT, connect=min(4.0, ALT_DISCOVERY_TIMEOUT))
     headers = {
-        "User-Agent": "WithHina/1.9.4 (+https://withhina.com)",
+        "User-Agent": "WithHina/2.0 (+https://withhina.com)",
         "Accept": "application/json",
     }
 
@@ -542,6 +590,7 @@ def _download_audio_with_strategy(
             "extractor_args": extractor_args,
             "logger": YTDLP_DIAGNOSTIC_LOGGER,
         }
+        attach_cookie_options(probe_options, temp_dir)
 
         with yt_dlp.YoutubeDL(probe_options) as ydl:
             info = ydl.extract_info(url, download=False)
@@ -587,6 +636,7 @@ def _download_audio_with_strategy(
                 "preferredquality": str(bitrate),
             }],
         }
+        attach_cookie_options(download_options, temp_dir)
 
         with yt_dlp.YoutubeDL(download_options) as ydl:
             ydl.download([url])
@@ -645,7 +695,13 @@ def download_audio(url: str, bitrate: int) -> tuple[Path, str, Path]:
 
 @app.get("/health")
 def health() -> dict[str, str]:
-    return {"status": "ok", "service": "hina-converter-api"}
+    cookies_ready, cookie_status = cookie_secret_status()
+    return {
+        "status": "ok",
+        "service": "hina-converter-api",
+        "youtube_cookies": "ready" if cookies_ready else cookie_status,
+        "pot_provider": "configured",
+    }
 
 
 @app.post("/api/download")
@@ -675,7 +731,7 @@ async def create_download(payload: DownloadRequest, request: Request, background
     except Exception as exc:
         raise HTTPException(
             502,
-            "O YouTube recusou a rota com PO Token e os provedores alternativos também não conseguiram entregar o áudio agora. Tente novamente em alguns instantes.",
+            "O YouTube recusou a sessão autenticada, as rotas com PO Token e os provedores alternativos. Verifique os cookies do serviço ou tente novamente mais tarde.",
         ) from exc
 
     background_tasks.add_task(shutil.rmtree, temp_dir, True)

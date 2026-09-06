@@ -1,0 +1,32 @@
+WITHHINA v2.0 — COOKIE SESSION + PO TOKEN
+
+O código NÃO contém cookies e NÃO deve receber cookies pelo GitHub.
+
+Render:
+1. Abra o serviço withhina-site.
+2. Environment.
+3. Secret Files -> Add Secret File.
+4. Filename: youtube-cookies.txt
+5. Cole no campo Contents um arquivo cookies.txt em formato Netscape.
+6. Save Changes.
+7. O Render disponibiliza o segredo em:
+   /etc/secrets/youtube-cookies.txt
+8. O backend copia esse arquivo para um local temporário com permissão 0600 em cada tentativa.
+9. /health mostra apenas youtube_cookies=ready/missing/invalid-format; nunca mostra o conteúdo.
+
+Opcional:
+- YOUTUBE_USER_AGENT pode ser configurado no Render para usar o mesmo User-Agent
+  do navegador que gerou os cookies.
+
+SEGURANÇA:
+- não use a sua conta Google principal;
+- use uma conta dedicada ao WithHina, sem e-mail/Drive/dados pessoais importantes;
+- nunca envie o cookies.txt ao GitHub, ChatGPT, e-mail ou repositório;
+- o .gitignore e .dockerignore desta versão bloqueiam nomes comuns de cookies;
+- cookies continuam sendo credenciais de sessão: quem tiver o arquivo pode agir como a sessão;
+- revogue a sessão trocando a senha/encerrando sessões da conta se houver suspeita de vazamento.
+
+O yt-dlp exige arquivo Mozilla/Netscape. A primeira linha deve ser:
+# Netscape HTTP Cookie File
+ou
+# HTTP Cookie File

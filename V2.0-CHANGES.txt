@@ -1,0 +1,11 @@
+WITHHINA v2.0
+
+- suporte a Render Secret File /etc/secrets/youtube-cookies.txt;
+- validação básica do formato Netscape;
+- cópia request-local e gravável dos cookies com permissão 0600;
+- cookies aplicados no probe e no download real;
+- estratégia web+cookies+PO e mweb+cookies+PO primeiro;
+- PO Token/Piped continuam como fallbacks;
+- /health informa apenas status dos cookies;
+- .gitignore e .dockerignore bloqueiam arquivos de cookie comuns;
+- nenhum cookie é incluído neste pacote.
