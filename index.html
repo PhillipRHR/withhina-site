@@ -3,77 +3,202 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Hina Converter: transforme seus próprios arquivos de áudio e vídeo em MP3 ou processe um link compatível com uma interface simples e elegante.">
-  <meta name="theme-color" content="#fff8fb">
+  <meta name="description" content="WithHina é um Media & Creator Toolkit para Windows: converta áudio, vídeo e imagens, use links compatíveis no app, processe arquivos em lote e trabalhe com formatos criativos como PSD/PSB.">
+  <meta name="theme-color" content="#0d0f11">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://withhina.com/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="WithHina">
-  <meta property="og:title" content="Hina Converter — Seus arquivos, do seu jeito">
-  <meta property="og:description" content="Converta arquivos de áudio e vídeo para MP3 ou use um link compatível. Hina cuida do resto.">
+  <meta property="og:title" content="WithHina — Media & Creator Toolkit">
+  <meta property="og:description" content="Áudio, vídeo, imagens, links compatíveis, Batch e ferramentas Creative em um app compacto para Windows.">
   <meta property="og:url" content="https://withhina.com/">
-  <meta property="og:image" content="https://withhina.com/hina-reclined.png">
+  <meta property="og:image" content="https://withhina.com/withhina-app-v1-7-2.png">
   <meta name="twitter:card" content="summary_large_image">
-  <title>Hina Converter — Seus arquivos, do seu jeito</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>WithHina — Media & Creator Toolkit</title>
+  <link rel="icon" href="favicon.ico?v=2.3" sizes="any">
+  <link rel="icon" href="favicon-32.png?v=2.3" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.3">
   <link rel="manifest" href="site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.0.0">
+  <link rel="stylesheet" href="styles.css?v=2.3.0">
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="#top" aria-label="Hina Converter — início">
-      <span class="brand-mark" aria-hidden="true">H</span>
-      <span>Hina <strong>Converter</strong></span>
+    <a class="brand" href="#top" aria-label="WithHina — início">
+      <span class="brand-icon" aria-hidden="true"><img src="withhina-mark.png" alt=""></span>
+      <span class="brand-name">WithHina</span>
     </a>
-    <nav aria-label="Navegação principal">
-      <a href="#converter">Converter</a>
-      <a href="#como-funciona">Como funciona</a>
-      <a href="Hina.html">Hina</a>
-      <a href="#privacidade">Privacidade</a>
-    </nav>
+    <div class="topbar-actions">
+      <nav aria-label="Navegação principal">
+        <a href="#recursos">Recursos</a>
+        <a href="#converter">Web</a>
+        <a href="#comparar">Web vs App</a>
+        <a href="Hina.html">Hina</a>
+      </nav>
+      <a class="nav-buy" id="nav-buy" href="#comprar">Comprar app</a>
+    </div>
   </header>
 
   <main id="top">
-    <section class="workspace" id="converter" aria-labelledby="page-title">
-      <div class="intro">
-        <p class="eyebrow">withhina.com</p>
-        <h1 id="page-title">Seus arquivos, do seu jeito. Eu cuido do resto.</h1>
-        <p class="lead">Converta mídia em MP3 em uma interface mais viva, elegante e direta. Escolha entre arquivo local ou link compatível e deixe a Hina conduzir o processo.</p>
+    <section class="hero hero-v23" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">WITHHINA · MEDIA & CREATOR TOOLKIT</p>
+        <h1 id="page-title">Seus arquivos,<br>do seu jeito.</h1>
+        <p class="hero-accent">Eu cuido do resto.</p>
+        <p class="lead">Converta áudio, vídeo e imagens em uma interface direta. No app para Windows, trabalhe também com links compatíveis, processamento em lote e ferramentas para arquivos criativos.</p>
+        <div class="hero-actions">
+          <a class="hero-primary" id="hero-buy" href="#comprar">Comprar o app — R$ 24,99</a>
+          <a class="hero-secondary" href="#converter">Usar conversor web</a>
+        </div>
+        <div class="hero-meta" aria-label="Destaques do WithHina">
+          <span>Audio & Video</span>
+          <span>Images</span>
+          <span>Creative</span>
+          <span>Batch</span>
+        </div>
+        <p class="hero-link-note"><span aria-hidden="true">↗</span> Conversão por link está disponível no app desktop.</p>
+      </div>
 
-        <div class="converter-card">
-          <div class="converter-stage" aria-label="Apresentação da Hina">
-            <div class="stage-copy">
-              <p class="stage-kicker">Hina Converter</p>
-              <div class="hina-message" id="hina-message" aria-live="polite">
-                <span class="message-dot" aria-hidden="true"></span>
-                <p><strong id="hina-title">Oi, eu sou a Hina.</strong><br><span id="hina-body">Como quer começar?</span></p>
-              </div>
-            </div>
-            <div class="stage-decor" aria-hidden="true">
-              <span class="blossom blossom-1"></span>
-              <span class="blossom blossom-2"></span>
-              <span class="blossom blossom-3"></span>
-            </div>
-            <picture>
-              <source srcset="hina-reclined.webp" type="image/webp">
-              <img class="hina-banner" src="hina-reclined.png" alt="Hina reclinada sobre o painel, com quimono branco e rosa e grandes caudas rosadas" width="1774" height="887" fetchpriority="high">
-            </picture>
+      <div class="app-showcase" aria-label="Prévia real do aplicativo WithHina">
+        <div class="app-showcase-topline">
+          <span><i></i> WITHHINA FOR WINDOWS</span>
+          <strong>V1.7.2</strong>
+        </div>
+        <div class="app-shot-wrap">
+          <img src="withhina-app-v1-7-2.png" alt="Aplicativo WithHina com as áreas Audio & Video, Images, Creative e Batch">
+        </div>
+        <div class="app-showcase-badges" aria-hidden="true">
+          <span>A/V</span><span>Images</span><span>Creative</span><span>Batch</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="toolkit-section" id="recursos" aria-labelledby="toolkit-title">
+      <div class="section-heading toolkit-heading">
+        <p class="eyebrow">UM APP, VÁRIAS FERRAMENTAS</p>
+        <h2 id="toolkit-title">Mais do que um conversor de MP3.</h2>
+        <p>O WithHina foi organizado por tipo de trabalho. Você abre o arquivo, escolhe o resultado e vê apenas os controles que fazem sentido para aquela tarefa.</p>
+      </div>
+      <div class="toolkit-grid">
+        <article class="tool-card">
+          <div class="tool-icon audio-icon" aria-hidden="true">♪</div>
+          <p class="tool-kicker">AUDIO & VIDEO</p>
+          <h3>Converta e extraia.</h3>
+          <p>MP3, WAV, FLAC, M4A, OGG, MP4, WebM, MKV e MOV. Extraia áudio de vídeo e escolha o formato de saída.</p>
+          <div class="format-row"><span>MP3</span><span>FLAC</span><span>MP4</span><span>WebM</span></div>
+        </article>
+        <article class="tool-card">
+          <div class="tool-icon image-icon" aria-hidden="true">◇</div>
+          <p class="tool-kicker">IMAGES</p>
+          <h3>Converta sem perder o controle.</h3>
+          <p>PNG, JPEG, WebP, BMP, TIFF, ICO e AVIF, com resize, qualidade e tratamento de transparência quando o formato exigir.</p>
+          <div class="format-row"><span>PNG</span><span>WebP</span><span>AVIF</span><span>ICO</span></div>
+        </article>
+        <article class="tool-card">
+          <div class="tool-icon creative-icon" aria-hidden="true">✦</div>
+          <p class="tool-kicker">CREATIVE</p>
+          <h3>Abra formatos de criação.</h3>
+          <p>Inspecione PSD/PSB, exporte a composição achatada e extraia camadas em PNG com transparência. Suporte inicial a recursos Live2D.</p>
+          <div class="format-row"><span>PSD</span><span>PSB</span><span>Live2D</span><span>Alpha</span></div>
+        </article>
+        <article class="tool-card">
+          <div class="tool-icon batch-icon" aria-hidden="true">▦</div>
+          <p class="tool-kicker">BATCH</p>
+          <h3>Processe vários de uma vez.</h3>
+          <p>Monte uma fila com múltiplos arquivos e deixe o WithHina cuidar das conversões sem repetir o mesmo processo manualmente.</p>
+          <div class="format-row"><span>Fila</span><span>Multi-file</span><span>Automático</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="compare-section" id="comparar" aria-labelledby="compare-title">
+      <div class="section-heading compare-heading">
+        <p class="eyebrow">WEB OU APP?</p>
+        <h2 id="compare-title">O navegador resolve o rápido. O app faz o resto.</h2>
+        <p>O conversor web continua simples e local. Para links, imagens, formatos extras e ferramentas de criação, use o WithHina no Windows.</p>
+      </div>
+      <div class="compare-grid">
+        <article class="compare-card web-card">
+          <span class="compare-label">WITHHINA WEB</span>
+          <h3>Para uma conversão rápida.</h3>
+          <p>Envie áudio ou vídeo do seu dispositivo e extraia MP3 diretamente no navegador.</p>
+          <ul>
+            <li><span>✓</span> Arquivos locais</li>
+            <li><span>✓</span> Áudio/vídeo → MP3</li>
+            <li><span>✓</span> 128–320 kbps</li>
+            <li class="not-included"><span>—</span> Links</li>
+            <li class="not-included"><span>—</span> Images / Creative / Batch</li>
+          </ul>
+          <a class="secondary-link compare-action" href="#converter">Abrir conversor web</a>
+        </article>
+        <article class="compare-card app-card">
+          <span class="compare-label">WITHHINA APP · WINDOWS</span>
+          <h3>O toolkit completo.</h3>
+          <p>Mais formatos, player integrado, links compatíveis, imagens, Batch e ferramentas Creative em uma única interface.</p>
+          <ul>
+            <li><span>✓</span> Arquivos locais</li>
+            <li><span>✓</span> Links compatíveis</li>
+            <li><span>✓</span> Audio & Video</li>
+            <li><span>✓</span> Images + transparência</li>
+            <li><span>✓</span> Creative + Batch</li>
+          </ul>
+          <a class="primary-link compare-action" href="#comprar">Ver o app</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="purchase-section" id="comprar" aria-labelledby="purchase-title">
+      <div class="purchase-copy">
+        <p class="eyebrow">WITHHINA FOR WINDOWS</p>
+        <h2 id="purchase-title">Seu toolkit multimídia em um só lugar.</h2>
+        <p>Audio & Video, Images, Creative e Batch, com player integrado e conversão por links compatíveis no aplicativo. Compra única, sem assinatura.</p>
+        <div class="purchase-features" aria-label="Recursos do WithHina Desktop">
+          <span>Audio & Video</span>
+          <span>Images</span>
+          <span>Creative</span>
+          <span>Batch</span>
+          <span>Links no app</span>
+          <span>Windows</span>
+        </div>
+      </div>
+
+      <div class="price-card">
+        <div class="price-region" role="group" aria-label="Região de compra">
+          <button type="button" class="region-button is-active" data-price-region="br" aria-pressed="true">Brasil</button>
+          <button type="button" class="region-button" data-price-region="intl" aria-pressed="false">International</button>
+        </div>
+        <p class="price-label" id="purchase-label">Preço no Brasil</p>
+        <div class="price" id="purchase-price">R$ 24,99</div>
+        <p class="price-caption" id="purchase-caption">Pagamento único · sem assinatura</p>
+        <a class="buy-button" id="purchase-button" href="mailto:support@withhina.com?subject=Comprar%20WithHina%20-%20Brasil">Comprar o app</a>
+        <p class="checkout-note" id="checkout-note">Compra única · app para Windows.</p>
+      </div>
+    </section>
+
+    <section class="workspace web-workspace" id="converter" aria-labelledby="converter-title">
+      <div class="section-heading converter-heading">
+        <p class="eyebrow">WITHHINA WEB</p>
+        <h2 id="converter-title">Precisa só do MP3? Faça aqui.</h2>
+        <p>Escolha um áudio ou vídeo local. A conversão acontece no navegador; links e o toolkit completo ficam no app desktop.</p>
+      </div>
+
+      <div class="converter-shell converter-shell-v23">
+        <aside class="converter-aside web-aside" aria-label="Informações do conversor web">
+          <div class="aside-icon"><img src="withhina-mark.png" alt=""></div>
+          <p class="stage-kicker">WEB MODE</p>
+          <h3>Local e direto.</h3>
+          <p class="aside-copy">O arquivo é processado no navegador. Escolha o bitrate e baixe o MP3 quando terminar.</p>
+          <div class="app-only-note">
+            <span aria-hidden="true">↗</span>
+            <div><strong>Links são exclusivos do app.</strong><small>Use o WithHina para fontes compatíveis.</small></div>
           </div>
+        </aside>
 
-          <div class="tabs" role="tablist" aria-label="Escolha a origem da mídia">
-            <button class="tab is-active" id="file-tab" role="tab" aria-selected="true" aria-controls="file-panel" data-tab="file">
-              <span aria-hidden="true">◇</span> Arquivo
-            </button>
-            <button class="tab" id="link-tab" role="tab" aria-selected="false" aria-controls="link-panel" data-tab="link">
-              <span aria-hidden="true">↗</span> Link
-            </button>
-          </div>
-
-          <section class="tab-panel" id="file-panel" role="tabpanel" aria-labelledby="file-tab">
+        <div class="converter-card single-converter-card">
+          <section class="tab-panel web-file-panel" id="file-panel" aria-label="Conversor de arquivo local">
             <label class="drop-zone" id="drop-zone" for="media-file">
               <input id="media-file" type="file" accept="audio/*,video/*">
               <span class="upload-icon" aria-hidden="true">＋</span>
@@ -95,25 +220,6 @@
             <button class="primary-button" id="convert-file" type="button" disabled>Converter para MP3</button>
           </section>
 
-          <section class="tab-panel" id="link-panel" role="tabpanel" aria-labelledby="link-tab" hidden>
-            <label class="field-label" for="media-url">Link do vídeo</label>
-            <div class="url-field">
-              <span aria-hidden="true">⌁</span>
-              <input id="media-url" type="url" inputmode="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
-            </div>
-            <p class="field-help">Use apenas conteúdo próprio, autorizado ou legalmente disponível para download.</p>
-            <div class="options-row link-options">
-              <label for="link-bitrate">Qualidade do MP3</label>
-              <select id="link-bitrate">
-                <option value="128">128 kbps · econômico</option>
-                <option value="192" selected>192 kbps · recomendado</option>
-                <option value="256">256 kbps · alta</option>
-                <option value="320">320 kbps · máxima</option>
-              </select>
-            </div>
-            <button class="primary-button" id="convert-link" type="button">Preparar MP3</button>
-          </section>
-
           <div class="status" id="status" aria-live="polite" hidden>
             <div class="status-line">
               <span id="status-text">Preparando conversão…</span>
@@ -129,59 +235,53 @@
             </div>
             <a class="download-button" id="download-result" download>Baixar MP3</a>
           </div>
-
-          <div class="feature-strip" aria-label="Destaques do serviço">
-            <span><strong>Arquivo</strong> processado no navegador</span>
-            <span><strong>Link</strong> processado no servidor configurado</span>
-            <span><strong>Qualidade</strong> de 128 a 320 kbps</span>
-          </div>
-
-          <p class="privacy-note"><span aria-hidden="true">◉</span> No modo Arquivo, seus arquivos são processados no navegador e não ficam armazenados.</p>
         </div>
       </div>
-    </section>
 
-    <section class="ad-container" data-ad-position="top" hidden aria-label="Publicidade">
-      <span>Publicidade</span>
-      <ins class="adsbygoogle" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <div class="feature-strip" aria-label="Destaques do conversor web">
+        <span><strong>Local</strong> processado no navegador</span>
+        <span><strong>MP3</strong> de 128 a 320 kbps</span>
+        <span><strong>Links</strong> disponíveis no app desktop</span>
+      </div>
+      <p class="privacy-note"><span aria-hidden="true">◉</span> No modo Web, seus arquivos locais não são enviados ao backend do WithHina.</p>
     </section>
 
     <section class="steps" id="como-funciona" aria-labelledby="steps-title">
       <div class="section-heading">
-        <p class="eyebrow">Sem complicação</p>
-        <h2 id="steps-title">Como a Hina trabalha</h2>
-        <p>Dois modos de entrada, um fluxo simples e uma interface que informa claramente o que está acontecendo.</p>
+        <p class="eyebrow">SEM COMPLICAÇÃO</p>
+        <h2 id="steps-title">Escolha a ferramenta. O WithHina cuida do fluxo.</h2>
+        <p>No app, cada categoria mostra apenas as opções relevantes para o arquivo carregado.</p>
       </div>
       <div class="step-grid">
         <article>
           <span>01</span>
-          <h3>Escolha como quer começar</h3>
-          <p>Envie um arquivo do aparelho ou cole um link compatível na aba Link.</p>
+          <h3>Abra o arquivo</h3>
+          <p>O WithHina identifica se você está trabalhando com áudio, vídeo, imagem ou arquivo criativo.</p>
         </article>
         <article>
           <span>02</span>
-          <h3>Defina a qualidade</h3>
-          <p>Escolha o bitrate que faz mais sentido para equilibrar tamanho e fidelidade do áudio.</p>
+          <h3>Escolha o resultado</h3>
+          <p>Defina formato, qualidade, resize ou ação específica sem navegar por controles que não se aplicam.</p>
         </article>
         <article>
           <span>03</span>
-          <h3>Baixe quando estiver pronto</h3>
-          <p>Quando a conversão terminar, o MP3 fica disponível imediatamente para download.</p>
+          <h3>Converta e continue</h3>
+          <p>Salve o resultado, abra a pasta ou coloque mais arquivos na fila para processamento em lote.</p>
         </article>
       </div>
     </section>
 
     <section class="privacy-section" id="privacidade" aria-labelledby="privacy-title">
       <div>
-        <p class="eyebrow">Privacidade primeiro</p>
+        <p class="eyebrow">PRIVACIDADE PRIMEIRO</p>
         <h2 id="privacy-title">Seus arquivos continuam seus.</h2>
       </div>
-      <p>No modo Arquivo, a conversão acontece localmente no navegador. No modo Link, somente o endereço informado, a qualidade escolhida e dados técnicos necessários para proteger o serviço são enviados ao backend. <a href="privacy.html">Leia a política completa.</a></p>
+      <p>No conversor Web, arquivos locais são processados no navegador. No app, o processamento local continua sendo a base das ferramentas de arquivo. Recursos que dependem de fontes externas podem exigir comunicação de rede. <a href="privacy.html">Leia a política completa.</a></p>
     </section>
   </main>
 
   <footer>
-    <div class="footer-brand">Hina Converter</div>
+    <a class="footer-brand" href="#top"><span class="footer-dot"></span>WithHina</a>
     <div class="footer-links">
       <a href="Hina.html">Sobre a Hina</a>
       <a href="privacy.html">Privacidade</a>
@@ -198,12 +298,12 @@
     </div>
     <div class="consent-actions">
       <button type="button" class="consent-secondary" id="consent-essential">Somente essenciais</button>
-      <button type="button" class="consent-primary" id="consent-accept">Aceitar estatísticas</button>
+      <button type="button" class="consent-primary" id="consent-accept">Permitir estatísticas</button>
     </div>
   </aside>
 
-  <script src="config.js?v=2.0.0"></script>
-  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
-  <script src="app.js?v=2.0.0"></script>
+  <script src="config.js"></script>
+  <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js" crossorigin="anonymous"></script>
+  <script src="app.js?v=2.3.0"></script>
 </body>
 </html>

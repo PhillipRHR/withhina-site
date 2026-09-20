@@ -1,0 +1,12 @@
+WITHHINA SITE V2.3 — TOOLKIT POSITIONING
+
+- Hero refeito sem imagem grande da Hina.
+- Preview real do app V1.7.2 usado como foco visual.
+- Posicionamento atualizado para Media & Creator Toolkit.
+- Nova seção de recursos: Audio & Video, Images, Creative e Batch.
+- Nova comparação Web vs App.
+- Conversão por link comunicada como recurso exclusivo do app desktop.
+- Conversor Web simplificado para arquivos locais -> MP3.
+- Copy de compra atualizada para refletir Images, Creative, Batch e links.
+- SEO/OG atualizado para o novo posicionamento.
+- Mantida a identidade preto/grafite/champagne.

@@ -4,5 +4,9 @@ window.HINA_CONFIG = {
   adsenseClient: "",
   adsenseSlots: {
     top: ""
+  },
+  buyUrls: {
+    br: "",
+    intl: ""
   }
 };

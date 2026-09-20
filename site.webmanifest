@@ -1,10 +1,21 @@
 {
-  "name": "Hina Converter",
-  "short_name": "Hina",
+  "name": "WithHina",
+  "short_name": "WithHina",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fff8fb",
-  "theme_color": "#fff8fb",
-  "description": "Converta arquivos de áudio e vídeo para MP3 com o Hina Converter.",
-  "icons": []
+  "background_color": "#0d0f11",
+  "theme_color": "#111315",
+  "description": "WithHina — conversão elegante de mídia e app desktop para Windows.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

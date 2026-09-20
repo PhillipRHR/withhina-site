@@ -1,0 +1,14 @@
+WithHina v2.2 — Commerce + favicon
+
+- Favicon trocado pela silhueta oficial da Hina (sem o antigo N).
+- Novos ícones: favicon.ico, favicon-32.png, apple-touch-icon.png, icon-192.png e icon-512.png.
+- Marca quadrada limpa em withhina-mark.png.
+- Novo CTA "Comprar app" no topo.
+- Hero agora prioriza a compra do app.
+- Nova seção WithHina Desktop com preço Brasil e Internacional.
+- Brasil: R$ 24,99.
+- Internacional: US$ 4.99.
+- Botão muda entre "Comprar o app" e "Buy the app".
+- Região inicial é escolhida pelo idioma do navegador (pt-BR => Brasil; outros => International).
+- URLs de checkout ficam em config.js > buyUrls.br / buyUrls.intl.
+- Enquanto os links de checkout estiverem vazios, os botões usam e-mail de suporte como fallback.

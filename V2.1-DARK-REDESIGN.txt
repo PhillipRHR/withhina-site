@@ -1,0 +1,13 @@
+WithHina V2.1 — Dark / Graphite Redesign
+
+- Nova identidade visual preta/grafite/champagne.
+- Hero totalmente redesenhado com a nova Hina escura.
+- Novo símbolo/ícone conceitual usado no branding do site.
+- Conversor preservado funcionalmente: IDs e app.js continuam compatíveis.
+- Layout do conversor reorganizado em painel lateral + área principal.
+- Página Hina atualizada para a nova direção visual.
+- Favicon atualizado para o tema escuro.
+- Consentimento, páginas legais, rodapé e estados do conversor adaptados ao dark theme.
+- Responsividade mantida para desktop/tablet/mobile.
+
+Observação: o arquivo withhina-icon-concept.png ainda é o conceito completo com texto na arte. O site usa apenas a área superior por CSS. Para favicon/ícone final, é melhor exportar futuramente uma versão limpa e quadrada do ícone.
